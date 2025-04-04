@@ -30,6 +30,7 @@
 # COMMAND ----------
 
 # MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
 # MAGIC -- Create a Delta table by specifying the delta format, followed
 # MAGIC -- by the path in quotes
 # MAGIC CREATE TABLE IF NOT EXISTS delta.`/mnt/datalake/book/chapter03/rateCard`
@@ -73,19 +74,8 @@
 
 # COMMAND ----------
 
-#%sh
-# Display the contents of the table's path. 
-# Important note: Since we are running in a Databricks
-# environment, we need to prefix our path with '/dbfs'
-# Note that our directory is empty, since we have not 
-# yet populated our rateCard table. Since we are using
-# the Delta Lake format, we do see the _delta_log directory
-# ls -al /dbfs/mnt/datalake/book/chapter03/rateCard
-
-for f in dbutils.fs.ls("dbfs:/mnt/datalake/book/chapter03/rateCard"):
-    size = f"{f.size:,}".rjust(10)
-    typ = "DIR " if f.isDir else "FILE"
-    print(f"{typ} {size}  {f.name}")
+# MAGIC %fs
+# MAGIC ls /mnt/datalake/book/chapter03/rateCard
 
 # COMMAND ----------
 
@@ -94,15 +84,8 @@ for f in dbutils.fs.ls("dbfs:/mnt/datalake/book/chapter03/rateCard"):
 
 # COMMAND ----------
 
-#%sh
-# Run a directory listing of the _delta_log transaction log directory.
-# Notice that we have a single transaction entry in ...00000.json
-#ls -al /dbfs/mnt/datalake/book/chapter03/rateCard/_delta_log
-
-for f in dbutils.fs.ls("dbfs:/mnt/datalake/book/chapter03/rateCard/_delta_log"):
-    size = f"{f.size:,}".rjust(10)
-    typ = "DIR " if f.isDir else "FILE"
-    print(f"{typ} {size}  {f.name}")
+# MAGIC %fs
+# MAGIC ls /mnt/datalake/book/chapter03/rateCard/_delta_log
 
 # COMMAND ----------
 
@@ -111,13 +94,13 @@ for f in dbutils.fs.ls("dbfs:/mnt/datalake/book/chapter03/rateCard/_delta_log"):
 
 # COMMAND ----------
 
-# %sh
-# Display the meataData action that was written to the first transaction log entry
-# Notice that we first grep for the metaData tag, write the output to a temp file
-# and then run the python json.tool on this temp file. This will 'pretty print' 
-# our JSON
-# grep metadata /dbfs/mnt/datalake/book/chapter03/rateCard/_delta_log/00000000000000000000.json > /tmp/metadata.json
-# python -m json.tool /tmp/metadata.json
+dbutils.fs.cp("dbfs:/mnt/datalake/book/chapter03/rateCard/_delta_log/00000000000000000000.json", "file:/tmp/00000000000000000000.json")
+
+# COMMAND ----------
+
+# MAGIC %sh
+# MAGIC cat /tmp/00000000000000000000.json | grep metadata > /tmp/metadata.json
+# MAGIC python -m json.tool /tmp/metadata.json
 
 # COMMAND ----------
 
@@ -146,15 +129,8 @@ for f in dbutils.fs.ls("dbfs:/mnt/datalake/book/chapter03/rateCard/_delta_log"):
 
 # COMMAND ----------
 
-#%sh
-# All managed tables will have their file stored under
-# the /user/hive/warehouse directory
-#ls -al /dbfs/user/hive/warehouse/taxidb.db/ratecardmanaged
-
-for f in dbutils.fs.ls("dbfs:/user/hive/warehouse/taxidb.db/ratecardmanaged"):
-    size = f"{f.size:,}".rjust(10)
-    typ = "DIR " if f.isDir else "FILE"
-    print(f"{typ} {size}  {f.name}")
+# MAGIC %fs
+# MAGIC ls /user/hive/warehouse/taxidb.db/ratecardmanaged
 
 # COMMAND ----------
 
