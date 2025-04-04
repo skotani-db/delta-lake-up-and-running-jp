@@ -32,6 +32,11 @@ from delta.tables import *
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
 # DBTITLE 1,Create the greentaxis table as an unmanaged table
 #
 # In this Create Table, we do NOT specify a location, so we are 
@@ -67,7 +72,7 @@ DeltaTable.createIfNotExists(spark)                              \
 # MAGIC --
 # MAGIC -- Let's take a look at the table
 # MAGIC --
-# MAGIC DESCRIBE TABLE EXTENDED taxidb.greentaxis 
+# MAGIC DESCRIBE TABLE EXTENDED taxidb.greentaxis
 
 # COMMAND ----------
 
@@ -120,3 +125,7 @@ DeltaTable.createIfNotExists(spark)                              \
 
 # MAGIC %sql
 # MAGIC DESCRIBE TABLE EXTENDED taxidb.greenTaxis
+
+# COMMAND ----------
+
+

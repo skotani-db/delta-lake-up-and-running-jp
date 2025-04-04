@@ -31,6 +31,10 @@
 
 # MAGIC %sql
 # MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
+# MAGIC %sql
 # MAGIC -- Create a Delta table by specifying the delta format, followed
 # MAGIC -- by the path in quotes
 # MAGIC CREATE TABLE IF NOT EXISTS delta.`/mnt/datalake/book/chapter03/rateCard`

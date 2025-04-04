@@ -42,9 +42,14 @@ DELTALAKE_PATH = 'dbfs:/mnt/datalake/book/chapter03/createDeltaTableWithDataFram
 # COMMAND ----------
 
 # MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
+# MAGIC %sql
 # MAGIC -- You will be re-creating the taxidb.rateCard table from a .CSV
 # MAGIC -- file, so you first need to drop it here
-# MAGIC drop table if exists taxidb.rateCard;
+# MAGIC DROP TABLE IF EXISTS taxidb.rateCard;
 
 # COMMAND ----------
 

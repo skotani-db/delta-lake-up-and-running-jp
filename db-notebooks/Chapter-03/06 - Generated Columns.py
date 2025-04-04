@@ -27,6 +27,11 @@
 # COMMAND ----------
 
 # MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
+# MAGIC %sql
 # MAGIC -- Note that we use GENERATED ALWAYS AS columns to calculate the
 # MAGIC -- PickYear, PickupMonth and Pickup Day
 # MAGIC CREATE OR REPLACE TABLE taxidb.YellowTaxis
@@ -38,15 +43,10 @@
 # MAGIC     PickupMonth          INT        GENERATED ALWAYS AS(MONTH (PickupTime)),
 # MAGIC     PickupDay            INT        GENERATED ALWAYS AS(DAY   (PickupTime)),
 # MAGIC     DropTime             TIMESTAMP,
-# MAGIC     CabNumber            STRING     COMMENT 'Official Yellow Cab Number',
-# MAGIC --    FareAmount           Double
+# MAGIC     CabNumber            STRING     COMMENT 'Official Yellow Cab Number'
 # MAGIC ) USING DELTA
 # MAGIC LOCATION "/mnt/datalake/book/chapter03/YellowTaxis.delta"
 # MAGIC COMMENT 'Table to store Yellow Taxi data'
-
-# COMMAND ----------
-
-display(_sqldf)
 
 # COMMAND ----------
 
@@ -106,3 +106,7 @@ display(_sqldf)
 # MAGIC     ID   STRING GENERATED ALWAYS AS (UUID()),
 # MAGIC     Name STRING
 # MAGIC ) USING DELTA
+
+# COMMAND ----------
+
+

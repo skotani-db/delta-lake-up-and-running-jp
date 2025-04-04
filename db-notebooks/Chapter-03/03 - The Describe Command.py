@@ -28,10 +28,14 @@
 # COMMAND ----------
 
 # MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
+# MAGIC %sql
 # MAGIC -- Running DESCRIBE on a database returns the namespace (aka teh database name), and comments
 # MAGIC -- entered while createing the database, the location for unmanaged tables in the database
 # MAGIC -- and the owner of the database
-# MAGIC USE CATALOG hive_metastore;
 # MAGIC DESCRIBE DATABASE taxidb;
 
 # COMMAND ----------

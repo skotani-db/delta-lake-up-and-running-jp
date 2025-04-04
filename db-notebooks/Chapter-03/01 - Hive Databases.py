@@ -26,6 +26,10 @@
 
 # MAGIC %sql
 # MAGIC use catalog hive_metastore;
+
+# COMMAND ----------
+
+# MAGIC %sql
 # MAGIC show databases;
 
 # COMMAND ----------
