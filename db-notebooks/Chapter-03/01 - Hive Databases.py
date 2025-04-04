@@ -25,7 +25,8 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC show databases
+# MAGIC use catalog hive_metastore;
+# MAGIC show databases;
 
 # COMMAND ----------
 
@@ -37,3 +38,7 @@
 # MAGIC %sql
 # MAGIC create database if not exists taxidb;
 # MAGIC show databases;
+
+# COMMAND ----------
+
+

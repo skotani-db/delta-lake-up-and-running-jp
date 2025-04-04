@@ -51,7 +51,8 @@ for f in dbutils.fs.ls("dbfs:/FileStore/tables/data"):
 
 # DBTITLE 0,Drop the taxidb database and all of its tables
 # MAGIC %sql
-# MAGIC drop database taxidb cascade
+# MAGIC use catalog hive_metastore;
+# MAGIC drop database if exists taxidb cascade;
 
 # COMMAND ----------
 
@@ -104,8 +105,8 @@ dbutils.fs.rm("/mnt/datalake/book/chapter03/YellowTaxisDelta", recurse=True)
 #df = spark.read.format("parquet").load("/mnt/datalake/book/chapter03/YellowTaxisParquet")
 #df.write.format("delta").mode("overwrite").save("/mnt/datalake/book/chapter03/YellowTaxisDelta/")
 
-df = spark.read.format("parquet").load("/mnt/datalake/book/chapter03/YellowTaxisParquet")
-df.write.format("delta").mode("overwrite").save("/mnt/datalake/book/chapter03/YellowTaxisDelta/")
+df = spark.read.format("parquet").load("/FileStore/tables/data/YellowTaxi/yellow_tripdata_2022_01-1.parquet")
+display(df.count())
 
 
 # COMMAND ----------
