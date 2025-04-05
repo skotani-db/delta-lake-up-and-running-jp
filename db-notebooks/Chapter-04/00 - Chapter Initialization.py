@@ -25,7 +25,8 @@
 
 # COMMAND ----------
 
-
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
 
 # COMMAND ----------
 
@@ -40,13 +41,16 @@
 
 # COMMAND ----------
 
-# MAGIC %fs
-# MAGIC rm -r /mnt/datalake/book/chapter04/YellowTaxisParquet
+dbutils.fs.rm('/mnt/datalake/book/chapter04/YellowTaxisParquet', recurse=True)
 
 # COMMAND ----------
 
 # MAGIC %fs
-# MAGIC cp mnt/datalake/book/DataFiles/YellowTaxisParquet /mnt/datalake/book/chapter04/YellowTaxisParquet
+# MAGIC ls /FileStore/tables/data/YellowTaxi
+
+# COMMAND ----------
+
+dbutils.fs.cp('/FileStore/tables/data/YellowTaxi','/mnt/datalake/book/chapter04/YellowTaxisParquet', recurse=True)
 
 # COMMAND ----------
 
@@ -55,13 +59,12 @@
 
 # COMMAND ----------
 
-# MAGIC %fs
-# MAGIC rm -r /mnt/datalake/book/chapter04/YellowTaxisDelta
+dbutils.fs.rm('/mnt/datalake/book/chapter04/YellowTaxisDelta', recurse=True)
 
 # COMMAND ----------
 
 df = spark.read.format("parquet").load("/mnt/datalake/book/chapter04/YellowTaxisParquet")
-df.write.format("delta").mode("overwrite").save("/mnt/datalake/book/chapter04/YellowTaxisDelta/")
+df.write.format("delta").mode("overwrite").save("/mnt/datalake/book/chapter04/YellowTaxisDelta")
 
 # COMMAND ----------
 

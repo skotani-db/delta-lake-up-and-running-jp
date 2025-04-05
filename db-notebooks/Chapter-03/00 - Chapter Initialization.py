@@ -91,7 +91,6 @@ dbutils.fs.cp('/FileStore/tables/data/YellowTaxi','/mnt/datalake/book/chapter03/
 
 dbutils.fs.rm("/mnt/datalake/book/chapter03/YellowTaxisDelta", recurse=True)
 
-
 # COMMAND ----------
 
 df = spark.read.format("parquet").load("/mnt/datalake/book/chapter03/YellowTaxisParquet")

@@ -47,8 +47,7 @@
 
 # COMMAND ----------
 
-# MAGIC %fs
-# MAGIC rm -r /mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned
+dbutils.fs.rm("/mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned", recurse=True)
 
 # COMMAND ----------
 
@@ -138,8 +137,7 @@ input_df                                                               \
 
 # COMMAND ----------
 
-# MAGIC %fs
-# MAGIC rm -r /mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned
+dbutils.fs.rm("/mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned", recurse=True)
 
 # COMMAND ----------
 
