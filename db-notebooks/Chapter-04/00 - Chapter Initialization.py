@@ -25,6 +25,10 @@
 
 # COMMAND ----------
 
+
+
+# COMMAND ----------
+
 # DBTITLE 0,Drop the taxidb database and all of its tables
 # MAGIC %sql
 # MAGIC drop database if exists taxidb cascade
