@@ -157,7 +157,3 @@ df = spark.createDataFrame(df)
 df.write.csv("/mnt/datalake/book/chapter03/YellowTaxis_append.csv", header=True, mode="overwrite")
 
 print("CSVファイルが正常に出力されました: /mnt/datalake/book/chapter03/YellowTaxis_append.csv")
-
-# COMMAND ----------
-
-

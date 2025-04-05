@@ -28,6 +28,11 @@
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC ###1 - Perform a DESCRIBE HISTORY on the Starting Table
 
@@ -109,7 +114,7 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC -- Make sure that the row with  RideId = 999998 is really gone
+# MAGIC -- Make sure that the row with  RideId = 100054 is really gone
 # MAGIC SELECT  
 # MAGIC     RideId, 
 # MAGIC     VendorId, 
@@ -163,3 +168,7 @@
 # MAGIC %sh
 # MAGIC ls -al /dbfs/mnt/datalake/book/chapter04/YellowTaxisDelta/
 # MAGIC
+
+# COMMAND ----------
+
+

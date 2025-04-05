@@ -20,6 +20,11 @@
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
 from pyspark.sql.functions import col
 
 # COMMAND ----------
@@ -48,7 +53,7 @@ from pyspark.sql.functions import col
 # MAGIC FROM
 # MAGIC     taxidb.yellowtaxis
 # MAGIC WHERE 
-# MAGIC     rideId = 100000
+# MAGIC     RideId = 100000
 
 # COMMAND ----------
 
@@ -68,12 +73,22 @@ print(yellowTaxiSchema)
 
 # COMMAND ----------
 
+df = spark.read.option("header", True).csv("/FileStore/tables/data/YellowTaxisMergeData.csv")
+display(df)
+
+# COMMAND ----------
+
+df = spark.read.option("header", True).csv("/mnt/datalake/book/chapter04/YellowTaxisMergeData.csv")
+display(df)
+
+# COMMAND ----------
+
 yellowTaxisMergeDataFrame = spark      \
             .read                      \
             .option("header", "true")  \
-            .schema(yellowTaxiSchema)  \
             .csv("/mnt/datalake/book/chapter04/YellowTaxisMergeData.csv") \
             .sort(col("RideId"))
+            
 
 display(yellowTaxisMergeDataFrame)                            
 
@@ -194,3 +209,7 @@ yellowTaxisMergeDataFrame.createOrReplaceTempView("YellowTaxiMergeData")
 
 # MAGIC %sh
 # MAGIC ls -al /dbfs/mnt/datalake/book/chapter04/YellowTaxisDelta/*.parquet
+
+# COMMAND ----------
+
+

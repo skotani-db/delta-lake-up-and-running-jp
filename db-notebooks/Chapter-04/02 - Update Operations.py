@@ -25,6 +25,11 @@
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC ###1 - Perform a DESCRIBE HISTORY on the Starting Table
 
@@ -120,3 +125,7 @@
 # MAGIC %sh
 # MAGIC grep "remove" /dbfs/mnt/datalake/book/chapter04/YellowTaxisDelta/_delta_log/00000000000000000002.json > /tmp/commit.json
 # MAGIC python -m json.tool < /tmp/commit.json
+
+# COMMAND ----------
+
+

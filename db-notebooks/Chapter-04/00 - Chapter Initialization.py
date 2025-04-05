@@ -86,7 +86,7 @@ df.write.format("delta").mode("overwrite").save("/mnt/datalake/book/chapter04/Ye
 
 # MAGIC %sql
 # MAGIC -- Re-create YellowTaxis as an unmanaged table
-# MAGIC CREATE TABLE taxidb.YellowTaxis
+# MAGIC CREATE OR REPLACE TABLE taxidb.YellowTaxis
 # MAGIC (
 # MAGIC     RideId                  INT,
 # MAGIC     VendorId                INT,
@@ -107,14 +107,19 @@ df.write.format("delta").mode("overwrite").save("/mnt/datalake/book/chapter04/Ye
 # MAGIC     TipAmount               DOUBLE,
 # MAGIC     TollsAmount             DOUBLE,         
 # MAGIC     ImprovementSurcharge    DOUBLE
-# MAGIC     
-# MAGIC ) USING DELTA         
+# MAGIC ) 
+# MAGIC USING DELTA         
 # MAGIC LOCATION "/mnt/datalake/book/chapter04/YellowTaxisDelta"
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC ALTER TABLE taxidb.YellowTaxis SET TBLPROPERTIES ('delta.enableDeletionVectors' = false)
+
+# COMMAND ----------
+
 # MAGIC %md
-# MAGIC ###6 - Get the count of the table which should be exactly 9,999,995 Rows
+# MAGIC ###6 - Get the count of the table
 
 # COMMAND ----------
 
@@ -126,10 +131,26 @@ df.write.format("delta").mode("overwrite").save("/mnt/datalake/book/chapter04/Ye
 
 # COMMAND ----------
 
-# MAGIC %fs
-# MAGIC cp /mnt/datalake/book/DataFiles/YellowTaxisMergeData.csv /mnt/datalake/book/chapter04/YellowTaxisMergeData.csv
+# MAGIC %sql
+# MAGIC SELECT  
+# MAGIC     *
+# MAGIC FROM    
+# MAGIC     taxidb.YellowTaxis
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ###4 - Read the YellowTaxisMergeData.csv
+
+# COMMAND ----------
+
+dbutils.fs.cp('/FileStore/tables/data/YellowTaxisMergeData.csv','/mnt/datalake/book/chapter04/YellowTaxisMergeData.csv', recurse=True)
 
 # COMMAND ----------
 
 # MAGIC %fs
 # MAGIC ls /mnt/datalake/book/chapter04/
+
+# COMMAND ----------
+
+
