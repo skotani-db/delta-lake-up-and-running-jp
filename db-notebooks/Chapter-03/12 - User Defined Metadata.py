@@ -85,12 +85,6 @@ dbutils.fs.cp("dbfs:/mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned/_de
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC grep commit /dbfs/mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned/_delta_log/00000000000000000006.json > /tmp/commit.json
-# MAGIC python -m json.tool /tmp/commit.json
-
-# COMMAND ----------
-
 # MAGIC %md
 # MAGIC ###4 - Look for the custom Metadata tag in DESCRIBE HISTORY
 

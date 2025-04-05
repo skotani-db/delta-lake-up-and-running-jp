@@ -20,10 +20,6 @@
 
 # COMMAND ----------
 
-# dbutils.fs.rm("/FileStore/tables/data", recurse=True)
-
-# COMMAND ----------
-
 # MAGIC %md 
 # MAGIC ###1 - Drop the taxidb database and all of its tables
 
@@ -155,8 +151,10 @@ data = {
 # データフレーム作成
 df = pd.DataFrame(data)
 
+# データフレーム作成
+df = spark.createDataFrame(df)
 # CSVファイルに出力
-df.to_csv('/dbfs/mnt/datalake/book/chapter03/YellowTaxis_append.csv', index=False)
+df.write.csv("/mnt/datalake/book/chapter03/YellowTaxis_append.csv", header=True, mode="overwrite")
 
 print("CSVファイルが正常に出力されました: /mnt/datalake/book/chapter03/YellowTaxis_append.csv")
 
