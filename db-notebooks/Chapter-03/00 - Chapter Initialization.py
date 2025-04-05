@@ -20,6 +20,10 @@
 
 # COMMAND ----------
 
+# dbutils.fs.rm("/FileStore/tables/data", recurse=True)
+
+# COMMAND ----------
+
 # MAGIC %md 
 # MAGIC ###1 - Drop the taxidb database and all of its tables
 
