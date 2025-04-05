@@ -24,6 +24,11 @@
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC ###Create the cdf database
 
@@ -205,8 +210,8 @@
 
 # COMMAND ----------
 
-cdc_df1 = spark.read.parquet("/mnt/datalake/book/chapter08/CDCEval/cdc-00000-6e84fbeb-a4dc-475b-b412-8d095840e817.c000.snappy.parquet")
-cdc_df2 = spark.read.parquet("/mnt/datalake/book/chapter08/CDCEval/cdc-00001-6bdbe422-a8b3-4761-9b3a-b28f2266ac53.c000.snappy.parquet")
+cdc_df1 = spark.read.parquet("/mnt/datalake/book/chapter08/CDCEval/cdc-00000-b80eb2e5-9019-43a4-b77e-de6bfe0a6b88.c000.snappy.parquet")
+cdc_df2 = spark.read.parquet("/mnt/datalake/book/chapter08/CDCEval/cdc-00001-3a46b2fe-a469-4b03-85a3-1ce4079fd8f2.c000.snappy.parquet")
 cdc_df = cdc_df1.union(cdc_df2)
 cdc_df.display()
 
@@ -238,3 +243,7 @@ df = spark.readStream                        \
           .table("cdf.dimSalesRep")
 
 df.display()
+
+# COMMAND ----------
+
+

@@ -22,6 +22,11 @@
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
 from pyspark.sql.functions import current_timestamp
 
 # COMMAND ----------

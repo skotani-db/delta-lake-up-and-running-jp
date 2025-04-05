@@ -24,6 +24,11 @@
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
 from pyspark.sql.functions import current_timestamp
 
 # COMMAND ----------
@@ -202,3 +207,7 @@ streamQuery =                                                         \
 
 # MAGIC %sql
 # MAGIC DESCRIBE delta.`/mnt/datalake/book/chapter08/StreamingTarget`
+
+# COMMAND ----------
+
+

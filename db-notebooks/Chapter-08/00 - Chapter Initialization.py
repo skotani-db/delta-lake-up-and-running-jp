@@ -24,18 +24,23 @@
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC ###Step 1 - Drop the taxidb database and all of its content
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC drop database if exists taxidb cascade
+# MAGIC DROP DATABASE IF EXISTS taxidb CASCADE;
 
 # COMMAND ----------
 
 # Let's take a look at whwat files we have available
-display(dbutils.fs.ls("mnt/datalake/book/DataFiles"))
+display(dbutils.fs.ls("/FileStore/tables/data/"))
 
 # COMMAND ----------
 
@@ -48,7 +53,7 @@ display(dbutils.fs.ls("mnt/datalake/book/DataFiles"))
 
 # COMMAND ----------
 
-dbutils.fs.mkdirs("/mnt/datalake/book/chapter08/")
+# dbutils.fs.mkdirs("/mnt/datalake/book/chapter08/")
 
 # COMMAND ----------
 
@@ -57,8 +62,7 @@ dbutils.fs.mkdirs("/mnt/datalake/book/chapter08/")
 
 # COMMAND ----------
 
-# MAGIC %fs
-# MAGIC cp mnt/datalake/book/DataFiles/YellowTaxisParquet /mnt/datalake/book/chapter08/YellowTaxisParquet
+dbutils.fs.cp('/FileStore/tables/data/YellowTaxi','/mnt/datalake/book/chapter08/YellowTaxisParquet', recurse=True)
 
 # COMMAND ----------
 
@@ -75,7 +79,7 @@ dbutils.fs.mkdirs("/mnt/datalake/book/chapter08/")
 
 # MAGIC %sql
 # MAGIC -- First, create the database taxidb
-# MAGIC CREATE DATABASE taxidb
+# MAGIC CREATE DATABASE IF NOT EXISTS taxidb
 
 # COMMAND ----------
 
@@ -129,3 +133,7 @@ limited_records_df.write.format("delta").mode("overwrite").save("/mnt/datalake/b
 
 # MAGIC %sql
 # MAGIC SELECT * FROM taxidb.limitedyellowtaxis
+
+# COMMAND ----------
+
+
