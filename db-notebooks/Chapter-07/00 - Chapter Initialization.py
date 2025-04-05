@@ -21,6 +21,11 @@
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
 # MAGIC %md 
 # MAGIC ###1 - Drop the taxidb database and all of its tables
 
@@ -42,17 +47,15 @@ from pyspark.sql.types import IntegerType
 # COMMAND ----------
 
 # MAGIC %fs
-# MAGIC ls /mnt/datalake/book/DataFiles
+# MAGIC ls /FileStore/tables/data/nyctaxi/taxizone/
 
 # COMMAND ----------
 
-# MAGIC %fs
-# MAGIC rm -r /mnt/datalake/book/chapter07/TaxiRateCode.csv
+dbutils.fs.rm("/mnt/datalake/book/chapter07/TaxiRateCode.csv", recurse=True)
 
 # COMMAND ----------
 
-# MAGIC %fs
-# MAGIC cp mnt/datalake/book/DataFiles/TaxiRateCode.csv /mnt/datalake/book/chapter07/TaxiRateCode.csv
+dbutils.fs.cp("/FileStore/tables/data/nyctaxi/taxizone/taxi_rate_code.csv", "/mnt/datalake/book/chapter07/taxi_rate_code.csv")
 
 # COMMAND ----------
 
@@ -66,20 +69,19 @@ from pyspark.sql.types import IntegerType
 
 # COMMAND ----------
 
-# MAGIC %fs
-# MAGIC rm -r dbfs:/mnt/datalake/book/chapter07/TaxiRateCode.delta
+dbutils.fs.rm("/mnt/datalake/book/chapter07/TaxiRateCode.delta", recurse=True)
 
 # COMMAND ----------
 
 # MAGIC %sh
-# MAGIC cat /dbfs/mnt/datalake/book/chapter07/TaxiRateCode.csv
+# MAGIC cat /dbfs/mnt/datalake/book/chapter07/taxi_rate_code.csv
 
 # COMMAND ----------
 
 # Read a Parquet file
 df = spark.read.format("csv")      \
         .option("header", "true") \
-        .load("/mnt/datalake/book/chapter07/TaxiRateCode.csv")
+        .load("/mnt/datalake/book/chapter07/taxi_rate_code.csv")
 df = df.withColumn("RateCodeId", df["RateCodeId"].cast(IntegerType()))
 
 # Write in Delta Lake format
@@ -143,3 +145,7 @@ df.printSchema()
 
 # MAGIC %sh
 # MAGIC cat /dbfs/mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/00000000000000000000.json
+
+# COMMAND ----------
+
+

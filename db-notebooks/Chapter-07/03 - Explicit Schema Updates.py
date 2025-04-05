@@ -19,6 +19,11 @@
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC ###Step 1 - Reset the TaxiRateCode Delta Table
 
@@ -32,13 +37,12 @@ from pyspark.sql.functions import col, cast
 
 # COMMAND ----------
 
-# MAGIC %fs
-# MAGIC rm -r dbfs:/mnt/datalake/book/chapter07/TaxiRateCode.delta
+dbutils.fs.rm("dbfs:/mnt/datalake/book/chapter07/TaxiRateCode.delta", recurse=True)
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC drop table taxidb.taxiratecode
+# MAGIC DROP TABLE IF EXISTS taxidb.TaxiRateCode
 
 # COMMAND ----------
 
@@ -46,7 +50,7 @@ from pyspark.sql.functions import col, cast
 # for the RateCodeId
 df = spark.read.format("csv")      \
         .option("header", "true") \
-        .load("/mnt/datalake/book/chapter07/TaxiRateCode.csv")
+        .load("/mnt/datalake/book/chapter07/taxi_rate_code.csv")
 df = df.withColumn("RateCodeId", df["RateCodeId"].cast(IntegerType()))
 
 # Write in Delta Lake format
@@ -255,6 +259,20 @@ df.show()
 # COMMAND ----------
 
 # MAGIC %sql
+# MAGIC DESCRIBE EXTENDED taxidb.TaxiRateCode 
+
+# COMMAND ----------
+
+# MAGIC  %sql
+# MAGIC  ALTER TABLE taxidb.TaxiRateCode  SET TBLPROPERTIES (
+# MAGIC     'delta.minReaderVersion' = '2',
+# MAGIC     'delta.minWriterVersion' = '5',
+# MAGIC     'delta.columnMapping.mode' = 'name'
+# MAGIC   )
+
+# COMMAND ----------
+
+# MAGIC %sql
 # MAGIC ALTER TABLE taxidb.TaxiRateCode 
 # MAGIC REPLACE COLUMNS (
 # MAGIC   Rate_Code_Identifier  INT    COMMENT 'Identifies the code',
@@ -322,8 +340,7 @@ df.show()
 
 # COMMAND ----------
 
-# MAGIC %fs
-# MAGIC rm -r dbfs:/mnt/datalake/book/chapter07/TaxiRateCode.delta
+dbutils.fs.rm("dbfs:/mnt/datalake/book/chapter07/TaxiRateCode.delta", recurse=True)
 
 # COMMAND ----------
 
@@ -334,7 +351,7 @@ df.show()
 
 df = spark.read.format("csv")      \
         .option("header", "true") \
-        .load("/mnt/datalake/book/chapter07/TaxiRateCode.csv")
+        .load("/mnt/datalake/book/chapter07/taxi_rate_code.csv")
 df = df.withColumn("RateCodeId", df["RateCodeId"].cast(IntegerType()))
 
 # Write in Delta Lake format
@@ -460,8 +477,7 @@ df.printSchema()
 
 # COMMAND ----------
 
-# MAGIC %fs
-# MAGIC rm -r dbfs:/mnt/datalake/book/chapter07/TaxiRateCode.delta
+dbutils.fs.rm("dbfs:/mnt/datalake/book/chapter07/TaxiRateCode.delta", recurse=True)
 
 # COMMAND ----------
 
@@ -472,7 +488,7 @@ df.printSchema()
 
 df = spark.read.format("csv")      \
         .option("header", "true") \
-        .load("/mnt/datalake/book/chapter07/TaxiRateCode.csv")
+        .load("/mnt/datalake/book/chapter07/taxi_rate_code.csv")
 df = df.withColumn("RateCodeId", df["RateCodeId"].cast(IntegerType()))
 
 # Write in Delta Lake format
@@ -579,3 +595,7 @@ spark.read.table('taxidb.TaxiRateCode')                             \
 # MAGIC # We have one add entry, which adds our part file with our 6 records
 # MAGIC grep '"add"' /dbfs/mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/00000000000000000001.json > /tmp/commit.json
 # MAGIC python -m json.tool < /tmp/commit.json
+
+# COMMAND ----------
+
+

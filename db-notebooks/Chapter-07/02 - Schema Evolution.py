@@ -20,6 +20,11 @@
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
 # Make sure to import the StructType and all supporting
 # cast of Type classes (StringType, IntegerType etc..)
 from pyspark.sql.types import *
@@ -175,7 +180,7 @@ dbutils.fs.rm("dbfs:/mnt/datalake/book/chapter07/TaxiRateCode.delta", recurse=Tr
 # the RateCodeId to short
 df = spark.read.format("csv")      \
         .option("header", "true") \
-        .load("/mnt/datalake/book/chapter07/TaxiRateCode.csv")
+        .load("/mnt/datalake/book/chapter07/taxi_rate_code.csv")
 df = df.withColumn("RateCodeId", df["RateCodeId"].cast(ShortType()))
 
 # Write in Delta Lake format
@@ -313,3 +318,7 @@ df.printSchema()
 # MAGIC   RateCodeDesc
 # MAGIC FROM
 # MAGIC   delta.`/mnt/datalake/book/chapter07/TaxiRateCode.delta`
+
+# COMMAND ----------
+
+

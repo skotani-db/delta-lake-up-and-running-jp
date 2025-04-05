@@ -23,6 +23,11 @@
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
 # Make sure to import the StructType and all supporting
 # cast of Type classes (StringType, IntegerType etc..)
 from pyspark.sql.types import *
@@ -137,3 +142,7 @@ df.write           \
 # MAGIC %sql
 # MAGIC -- Look at the history for the Delta table
 # MAGIC DESCRIBE HISTORY delta.`/mnt/datalake/book/chapter07/TaxiRateCode.delta`
+
+# COMMAND ----------
+
+
