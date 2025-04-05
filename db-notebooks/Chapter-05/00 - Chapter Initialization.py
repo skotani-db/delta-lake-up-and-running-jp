@@ -20,6 +20,11 @@
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
 # MAGIC %md 
 # MAGIC ###1 - Drop the taxidb database and all of its tables
 
@@ -36,13 +41,16 @@
 
 # COMMAND ----------
 
-# MAGIC %fs
-# MAGIC rm -r /mnt/datalake/book/chapter05/YellowTaxisParquet
+dbutils.fs.rm("/mnt/datalake/book/chapter05/YellowTaxisParquet", recurse=True)
+
+# COMMAND ----------
+
+dbutils.fs.cp('/FileStore/tables/data/YellowTaxi','/mnt/datalake/book/chapter05/YellowTaxisParquet', recurse=True)
 
 # COMMAND ----------
 
 # MAGIC %fs
-# MAGIC cp -r mnt/datalake/book/DataFiles/YellowTaxisParquet /mnt/datalake/book/chapter05/YellowTaxisParquet
+# MAGIC ls /mnt/datalake/book/chapter05/YellowTaxisParquet
 
 # COMMAND ----------
 
@@ -51,60 +59,21 @@
 
 # COMMAND ----------
 
-# MAGIC %fs
-# MAGIC rm -r /mnt/datalake/book/chapter05/YellowTaxisDelta
+dbutils.fs.rm("/mnt/datalake/book/chapter05/YellowTaxisDelta", recurse=True)
 
 # COMMAND ----------
 
 from pyspark.sql.types import (StructType,StructField,StringType,IntegerType,TimestampType,DoubleType,LongType)
 from pyspark.sql.functions import (to_date, year, month, dayofmonth)
 
-# define schema of data
-schema = schema = (
-    StructType()
-    .add("VendorID", LongType(), True)
-    .add("tpep_pickup_datetime", TimestampType(), True)
-    .add("tpep_dropoff_datetime", TimestampType(), True)
-    .add("passenger_count", DoubleType(), True)
-    .add("trip_distance", DoubleType(), True)
-    .add("RatecodeID", DoubleType(), True)
-    .add("store_and_fwd_flag", StringType(), True)
-    .add("PULocationID", LongType(), True)
-    .add("DOLocationID", LongType(), True)
-    .add("payment_type", LongType(), True)
-    .add("fare_amount", DoubleType(), True)
-    .add("extra", DoubleType(), True)
-    .add("mta_tax", DoubleType(), True)
-    .add("tip_amount", DoubleType(), True)
-    .add("tolls_amount", DoubleType(), True)
-    .add("total_amount", DoubleType(), True)
-    .add("congestion_surcharge", DoubleType(), True)
-    .add("airport_fee", DoubleType(), True)
-)
-
-# read multiple years of parquet files
-years = [2022,2021]
-
-# create blank dataframe
-df = spark.createDataFrame(spark.sparkContext.emptyRDD(), schema)
-
-# for each item in the year list, combine the data into a single dataframe
-for i in years:
-    # union dataframes with each year of data together
-    df = df.union(
-        spark.read.format("parquet")
-        .schema(schema)
-        .load(f"/mnt/datalake/book/chapter05/YellowTaxisParquet/{i}")
-    )
-    
 # add date columns to dataframe
+df = spark.read.format("parquet").load("/mnt/datalake/book/chapter04/YellowTaxisParquet")
 df = (
-    df.withColumn("PickupDate", to_date("tpep_pickup_datetime"))
-    .withColumn("PickupYear", year('tpep_pickup_datetime'))
-    .withColumn("PickupMonth", month('tpep_pickup_datetime'))
-    .withColumn("PickupDay", dayofmonth('tpep_pickup_datetime'))
+    df.withColumn("PickupDate", to_date("PickupTime"))
+    .withColumn("PickupYear", year('PickupTime'))
+    .withColumn("PickupMonth", month('PickupTime'))
+    .withColumn("PickupDay", dayofmonth('PickupTime'))
 )
-
 
 # define the path and how many partitions we want this file broken up into so we can demonstrate compaction
 path = "/mnt/datalake/book/chapter05/YellowTaxisDelta/"
@@ -128,3 +97,7 @@ df.repartition(numberOfFiles).write.format("delta").mode("overwrite").save(path)
 # MAGIC %sql
 # MAGIC CREATE TABLE IF NOT EXISTS taxidb.tripData
 # MAGIC USING DELTA LOCATION '/mnt/datalake/book/chapter05/YellowTaxisDelta';
+
+# COMMAND ----------
+
+

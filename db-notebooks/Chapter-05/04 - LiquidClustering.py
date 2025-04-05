@@ -24,6 +24,11 @@
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
 # MAGIC %md 
 # MAGIC ###Step 1 - Cleanup, Drop table if exists
 
@@ -36,8 +41,7 @@
 # COMMAND ----------
 
 # DBTITLE 1,Remove existing Delta table
-# MAGIC %fs
-# MAGIC rm -r /mnt/datalake/book/chapter05/YellowTaxisLiquidClusteringDelta
+dbutils.fs.rm("/mnt/datalake/book/chapter05/YellowTaxisLiquidClusteringDelta", recurse=True)
 
 # COMMAND ----------
 
@@ -93,7 +97,7 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC SELECT * FROM taxidb.tripDataClustered WHERE VendorId = 1 and RateCodeId = 1
+# MAGIC SELECT * FROM taxidb.tripDataClustered WHERE VendorId = 1 and RatecodeId = 1
 
 # COMMAND ----------
 
@@ -104,3 +108,7 @@
 
 # MAGIC %sql
 # MAGIC ALTER TABLE taxidb.tripDataClustered CLUSTER BY NONE;
+
+# COMMAND ----------
+
+

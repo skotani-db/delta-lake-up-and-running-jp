@@ -18,13 +18,17 @@
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
 # MAGIC %md 
 # MAGIC ###Step 1 - Remove existing Delta table directory to remove all old files
 
 # COMMAND ----------
 
-# MAGIC %fs
-# MAGIC rm -r /mnt/datalake/book/chapter05/YellowTaxisDelta/
+dbutils.fs.rm("/mnt/datalake/book/chapter05/YellowTaxisPartitionedDelta/", recurse=True)
 
 # COMMAND ----------
 
@@ -38,15 +42,14 @@
 from pyspark.sql.functions import (month, to_date)
 
 # define the source path and destination path
-source_path = "/mnt/datalake/book/chapter05/YellowTaxisParquet/2021"
-destination_path = "/mnt/datalake/book/chapter05/YellowTaxisDelta/"
+source_path = "/mnt/datalake/book/chapter05/YellowTaxisParquet"
+destination_path = "/mnt/datalake/book/chapter05/YellowTaxisPartitionedDelta/"
 
 # read the delta table, add columns to partitions on, and write it using a partition.
 # make sure to overwrite the existing schema if the table already exists since we are adding partitions
-spark.read.format("parquet")                                \
-.load(source_path)                                          \
-.withColumn('PickupMonth', month('tpep_pickup_datetime'))   \
-.withColumn('PickupDate', to_date('tpep_pickup_datetime'))  \
+spark.table('taxidb.tripData')                                 \
+.withColumn('PickupMonth', month('PickupDate'))   \
+.withColumn('PickupDate', to_date('PickupDate'))  \
 .write                                                      \
 .partitionBy('PickupMonth')                                 \
 .format("delta")                                            \
@@ -54,12 +57,15 @@ spark.read.format("parquet")                                \
 .mode("overwrite")                                          \
 .save(destination_path)
 
+# register table in Hive
+spark.sql(f"""CREATE TABLE IF NOT EXISTS taxidb.tripDataPartitioned USING DELTA LOCATION '{destination_path}' """)
+
 # COMMAND ----------
 
 # DBTITLE 1,List partitions for the table
 # MAGIC %sql
 # MAGIC --list all partitions for the table
-# MAGIC SHOW PARTITIONS taxidb.tripData
+# MAGIC SHOW PARTITIONS taxidb.tripDataPartitioned
 
 # COMMAND ----------
 
@@ -76,7 +82,7 @@ print(os.listdir('/dbfs/'+destination_path))
 # MAGIC %sh
 # MAGIC # find the last transaction entry and search for "add" to find an added file
 # MAGIC # the output will show you the partitionValues
-# MAGIC grep "\"add"\" "$(ls -1rt /dbfs/mnt/datalake/book/chapter05/YellowTaxisDelta/_delta_log/*.json | tail -n1)" | sed -n 1p > /tmp/commit.json | sed -n 1p > /tmp/commit.json
+# MAGIC grep "\"add"\" "$(ls -1rt /dbfs/mnt/datalake/book/chapter05/YellowTaxisPartitionedDelta/_delta_log/*.json | tail -n1)" | sed -n 1p > /tmp/commit.json | sed -n 1p > /tmp/commit.json
 # MAGIC python -m json.tool < /tmp/commit.json
 
 # COMMAND ----------
@@ -89,17 +95,17 @@ print(os.listdir('/dbfs/'+destination_path))
 # DBTITLE 1,Use replaceWhere to update a specified partition
 # import month from sql functions
 from pyspark.sql.functions import lit
-from pyspark.sql.types import LongType
+from pyspark.sql.types import IntegerType
 
 # use replaceWhere to update a specified partition
 spark.read                                                              \
     .format("delta")                                                    \
     .load(destination_path)                                             \
-    .where("PickupMonth == '12' and payment_type == '3' ")              \
-    .withColumn("payment_type", lit(4).cast(LongType()))                \
+    .where("PickupMonth == 2 and PaymentType == 4 ")              \
+    .withColumn("PaymentType", lit(3).cast(IntegerType()))                \
     .write                                                              \
     .format("delta")                                                    \
-    .option("replaceWhere", "PickupMonth = '12'")                       \
+    .option("replaceWhere", "PickupMonth = 2")                       \
     .mode("overwrite")                                                  \
     .save(destination_path)
 
@@ -109,7 +115,7 @@ spark.read                                                              \
 # read a partition from the delta table and repartition it 
 spark.read.format("delta")          \
 .load(destination_path)             \
-.where("PickupMonth = '12' ")       \
+.where("PickupMonth = 12 ")       \
 .repartition(5)                     \
 .write                              \
 .option("dataChange", "false")      \
@@ -121,4 +127,8 @@ spark.read.format("delta")          \
 
 # DBTITLE 1,Optimize and ZORDER BY on a specified partition
 # MAGIC %sql
-# MAGIC OPTIMIZE taxidb.tripData WHERE PickupMonth = 12 ZORDER BY tpep_pickup_datetime
+# MAGIC OPTIMIZE taxidb.tripDataPartitioned WHERE PickupMonth = 12 ZORDER BY PickupTime
+
+# COMMAND ----------
+
+

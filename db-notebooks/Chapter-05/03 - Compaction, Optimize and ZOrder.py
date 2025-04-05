@@ -23,6 +23,11 @@
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
 # MAGIC %md 
 # MAGIC ###Step 1 - Demonstrate compaction using repartition
 
@@ -147,7 +152,7 @@ spark.read.format("delta").load(path).repartition(numberOfFiles)    \
 # MAGIC -- take note how long it takes to return results
 # MAGIC SELECT
 # MAGIC   COUNT(*) as count,
-# MAGIC   SUM(total_amount) as totalAmount,
+# MAGIC   SUM(TotalAmount) as totalAmount,
 # MAGIC   PickupDate
 # MAGIC FROM
 # MAGIC   taxidb.tripData
@@ -174,13 +179,18 @@ spark.read.format("delta").load(path).repartition(numberOfFiles)    \
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC SELECT * FROM taxidb.tripData
+
+# COMMAND ----------
+
 # DBTITLE 1,Execute baseline query again
 # MAGIC %sql
 # MAGIC -- baseline query
 # MAGIC -- after optimizing the table, note the decrease in time it took to return results compared to query run before
 # MAGIC SELECT
 # MAGIC   count(*) as count,
-# MAGIC   sum(total_amount) as totalAmount,
+# MAGIC   sum(TotalAmount) as totalAmount,
 # MAGIC   PickupDate
 # MAGIC FROM
 # MAGIC   taxidb.tripData
@@ -188,3 +198,7 @@ spark.read.format("delta").load(path).repartition(numberOfFiles)    \
 # MAGIC   PickupDate BETWEEN '2022-01-01' AND '2022-03-31'
 # MAGIC GROUP BY
 # MAGIC   PickupDate
+
+# COMMAND ----------
+
+

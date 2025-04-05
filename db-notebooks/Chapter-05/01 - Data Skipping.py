@@ -27,3 +27,7 @@
 # MAGIC # the output will show you the file stats stored in the json transaction entry for the last file added
 # MAGIC grep "\"add"\" "$(ls -1rt /dbfs//mnt/datalake/book/chapter05/YellowTaxisDelta/_delta_log/*.json | tail -n1)" | sed -n 1p > /tmp/commit.json
 # MAGIC python -m json.tool < /tmp/commit.json
+
+# COMMAND ----------
+
+
