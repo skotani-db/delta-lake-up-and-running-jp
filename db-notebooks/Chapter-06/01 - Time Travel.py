@@ -16,6 +16,11 @@
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
 # MAGIC %md 
 # MAGIC ###1 - Update records, Delete records, then Describe table history 
 
@@ -65,9 +70,4 @@ print(len(os.listdir('/dbfs/'+ '/mnt/datalake/book/chapter06/YellowTaxisDelta'))
 
 # COMMAND ----------
 
-version = spark.sql("SELECT max(version) FROM (DESCRIBE HISTORY taxidb.tripData)").collect()
 
-# use the latest version of the table for all operations below
-data = spark.table("taxidb.tripData@v%s" % version[0][0])
-
-data.where("VendorId = 1").write.jdbc("table1")

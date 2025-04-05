@@ -21,6 +21,11 @@
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
 # MAGIC %md 
 # MAGIC ###1 - Drop the taxidb database and all of its tables
 
@@ -38,26 +43,22 @@
 # COMMAND ----------
 
 # DBTITLE 1,Remove existing parquet files
-# MAGIC %fs
-# MAGIC rm -r /mnt/datalake/book/chapter06/YellowTaxisParquet
+dbutils.fs.rm("/mnt/datalake/book/chapter06/YellowTaxisParquet", recurse=True)
 
 # COMMAND ----------
 
 # DBTITLE 1,Remove existing delta table
-# MAGIC %fs
-# MAGIC rm -r /mnt/datalake/book/chapter06/TripAggregatesDelta
+dbutils.fs.rm("/mnt/datalake/book/chapter06/TripAggregatesDelta", recurse=True)
 
 # COMMAND ----------
 
 # DBTITLE 1,Remove existing delta table
-# MAGIC %fs
-# MAGIC rm -r /mnt/datalake/book/chapter06/YellowTaxisDelta
+dbutils.fs.rm("/mnt/datalake/book/chapter06/YellowTaxisDelta", recurse=True)
 
 # COMMAND ----------
 
 # DBTITLE 1,Copy parquet files to this chapter
-# MAGIC %fs
-# MAGIC cp -r mnt/datalake/book/DataFiles/YellowTaxisParquet /mnt/datalake/book/chapter06/YellowTaxisParquet
+dbutils.fs.cp("/FileStore/tables/data/YellowTaxi", "/mnt/datalake/book/chapter06/YellowTaxisParquet", recurse=True)
 
 # COMMAND ----------
 
@@ -67,7 +68,7 @@
 # COMMAND ----------
 
 # DBTITLE 1,Read files and write to Delta table
-df = spark.read.format("parquet").load("/mnt/datalake/book/chapter06/YellowTaxisParquet/2022")
+df = spark.read.format("parquet").load("/mnt/datalake/book/chapter06/YellowTaxisParquet")
 df.write.format("delta").mode("overwrite").save("/mnt/datalake/book/chapter06/YellowTaxisDelta/")
 
 # COMMAND ----------
@@ -113,3 +114,7 @@ spark.createDataFrame(data=data, schema = columns)\
 .option("delta.enableChangeDataFeed", "true")\
 .mode("overwrite")\
 .save("/mnt/datalake/book/chapter06/TripAggregatesDelta/")
+
+# COMMAND ----------
+
+

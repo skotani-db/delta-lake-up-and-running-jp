@@ -16,6 +16,11 @@
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
 # MAGIC %md 
 # MAGIC ###1 - Create a new table and enable the change data feed
 
@@ -104,3 +109,7 @@ display(df)
 
 # MAGIC %sql
 # MAGIC select * from taxidb.tripAggregates 
+
+# COMMAND ----------
+
+
