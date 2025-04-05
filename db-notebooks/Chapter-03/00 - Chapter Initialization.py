@@ -108,8 +108,10 @@ dbutils.fs.rm("/mnt/datalake/book/chapter03/YellowTaxisLargeAppend.csv", recurse
 
 # COMMAND ----------
 
-dbutils.fs.cp('dbfs:/FileStore/tables/data/YellowTaxisLargeAppend.csv','dbfs:/mnt/datalake/book/chapter03/YellowTaxisLargeAppend.csv')
-
+try:
+    dbutils.fs.cp('dbfs:/FileStore/tables/data/YellowTaxisLargeAppend.csv','dbfs:/mnt/datalake/book/chapter03/YellowTaxisLargeAppend.csv')
+except:
+    print("ファイルが存在しません。dbfs:/FileStore/tables/dataへYellowTaxisLargeAppend.csvファイルをアップロードしてください。")
 
 # COMMAND ----------
 

@@ -41,11 +41,6 @@
 
 # COMMAND ----------
 
-#%sh
-# Remove the Deta Files, since they are not automatically 
-# dropped for a managed table
-#rm -r "/dbfs/mnt/datalake/book/chapter03/YellowTaxisDelta/"
-
 dbutils.fs.rm('/mnt/datalake/book/chapter03/YellowTaxisDelta/', recurse=True)
 
 # COMMAND ----------
