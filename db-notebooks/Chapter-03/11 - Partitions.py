@@ -36,9 +36,19 @@
 # COMMAND ----------
 
 # MAGIC %sql
+# MAGIC USE CATALOG hive_metastore
+
+# COMMAND ----------
+
+# MAGIC %sql
 # MAGIC -- If there is an ond version of the table, make sure to 
 # MAGIC -- drop it
-# MAGIC drop table if exists taxidb.YellowTaxisPartitioned;
+# MAGIC DROP TABLE IF EXISTS taxidb.YellowTaxisPartitioned;
+
+# COMMAND ----------
+
+# MAGIC %fs
+# MAGIC rm -r /mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned
 
 # COMMAND ----------
 
@@ -100,13 +110,13 @@ input_df                                                               \
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned
+# MAGIC %fs
+# MAGIC ls /mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned/VendorId=4
+# MAGIC %fs
+# MAGIC ls /mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned/VendorId=4
 
 # COMMAND ----------
 
@@ -128,9 +138,8 @@ input_df                                                               \
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC # Delete the Delta Files for the table
-# MAGIC rm -r /dbfs/mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned
+# MAGIC %fs
+# MAGIC rm -r /mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned
 
 # COMMAND ----------
 
@@ -191,8 +200,8 @@ input_df                                                               \
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned
+# MAGIC %fs
+# MAGIC ls /mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned
 
 # COMMAND ----------
 
@@ -201,8 +210,8 @@ input_df                                                               \
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned/VendorId=1
+# MAGIC %fs
+# MAGIC ls /mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned/VendorId=1
 
 # COMMAND ----------
 
@@ -211,8 +220,8 @@ input_df                                                               \
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned/VendorId=1/RatecodeId=1
+# MAGIC %fs
+# MAGIC ls /mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned/VendorId=1/RatecodeId=1
 
 # COMMAND ----------
 
@@ -289,3 +298,7 @@ spark.read                                                              \
 # MAGIC     taxidb.yellowtaxispartitioned
 # MAGIC ORDER BY 
 # MAGIC     PaymentType
+
+# COMMAND ----------
+
+

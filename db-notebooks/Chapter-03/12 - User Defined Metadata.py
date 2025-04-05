@@ -17,6 +17,11 @@
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
 from delta.tables import *
 
 # COMMAND ----------
@@ -58,13 +63,25 @@ spark.sparkContext
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned/_delta_log/*.json
+log_files = dbutils.fs.ls("/mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned/_delta_log/")
+json_paths = [file_info.path for file_info in log_files if file_info.path.endswith('.json')]
+for path in json_paths:
+    print(path)
 
 # COMMAND ----------
 
 # MAGIC %md
 # MAGIC ###3 - Look for our custom metadata tag in the commitInfo Action of the Transaction Log Entry
+
+# COMMAND ----------
+
+dbutils.fs.cp("dbfs:/mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned/_delta_log/00000000000000000003.json", "file:/tmp/commit.json")
+
+# COMMAND ----------
+
+# MAGIC %sh
+# MAGIC cat /tmp/commit.json | grep metadata > /tmp/metadata.json
+# MAGIC python -m json.tool /tmp/metadata.json
 
 # COMMAND ----------
 
@@ -102,7 +119,7 @@ yellowTaxiSchema = df.schema
 df_for_append = spark.read                            \
                      .option("header", "true")        \
                      .schema(yellowTaxiSchema)        \
-                     .csv("/mnt/datalake/book/data files/YellowTaxis_append.csv")
+                     .csv("/mnt/datalake/book/chapter03/YellowTaxis_append.csv")
 
 display(df_for_append)
 
@@ -122,8 +139,10 @@ df_for_append.write                                              \
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned/_delta_log/*.json
+log_files = dbutils.fs.ls("/mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned/_delta_log/")
+json_paths = [file_info.path for file_info in log_files if file_info.path.endswith('.json')]
+for path in json_paths:
+    print(path)
 
 # COMMAND ----------
 
@@ -132,6 +151,10 @@ df_for_append.write                                              \
 
 # COMMAND ----------
 
+dbutils.fs.cp("dbfs:/mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned/_delta_log/00000000000000000004.json", "file:/tmp/commit.json")
+
+# COMMAND ----------
+
 # MAGIC %sh
-# MAGIC grep commit /dbfs/mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned/_delta_log/00000000000000000005.json > /tmp/commit.json
-# MAGIC python -m json.tool /tmp/commit.json
+# MAGIC cat /tmp/commit.json | grep commitInfo > /tmp/metadata.json
+# MAGIC python -m json.tool /tmp/metadata.json

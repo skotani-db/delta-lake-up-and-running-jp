@@ -32,8 +32,6 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC -- Note that we use GENERATED ALWAYS AS columns to calculate the
-# MAGIC -- PickYear, PickupMonth and Pickup Day
 # MAGIC CREATE OR REPLACE TABLE taxidb.YellowTaxis
 # MAGIC (
 # MAGIC     RideId               INT        COMMENT 'This is our primary Key column',
@@ -43,7 +41,7 @@
 # MAGIC     PickupMonth          INT        GENERATED ALWAYS AS(MONTH (PickupTime)),
 # MAGIC     PickupDay            INT        GENERATED ALWAYS AS(DAY   (PickupTime)),
 # MAGIC     DropTime             TIMESTAMP,
-# MAGIC     CabNumber            STRING     COMMENT 'Official Yellow Cab Number'
+# MAGIC     CabNumber            STRING     COMMENT 'Official Yellow Cab Number'             
 # MAGIC ) USING DELTA
 # MAGIC LOCATION "/mnt/datalake/book/chapter03/YellowTaxis.delta"
 # MAGIC COMMENT 'Table to store Yellow Taxi data'

@@ -30,6 +30,11 @@
 # COMMAND ----------
 
 # MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
+# MAGIC %sql
 # MAGIC -- Drop the YellowTaxis table. Since this is an unmamaged
 # MAGIC -- table, this will NOT remove the underlying files
 # MAGIC DROP TABLE IF EXISTS taxidb.YellowTaxis
@@ -251,6 +256,9 @@ df_for_append.write                     \
 
 # COMMAND ----------
 
-# MAGIC
 # MAGIC %fs
-# MAGIC ls /mnt/datalake/book/DataFiles
+# MAGIC ls /mnt/datalake/book/chapter03/YellowTaxisDelta
+
+# COMMAND ----------
+
+

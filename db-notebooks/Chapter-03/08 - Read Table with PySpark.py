@@ -25,6 +25,11 @@
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
 # Note that we can use the .table format to read the entire table
 df = spark.read.format("delta").table("taxidb.YellowTaxis")
 
@@ -47,7 +52,7 @@ df = spark.read.format("delta").table("taxidb.YellowTaxis")
 
 # Perform the group by, average, having and order by equivalents
 # in pySpark
-results = df.groupBy("CabNumber")                          \
+results = df.groupBy("VendorID")                          \
             .agg(avg("FareAmount").alias("AverageFare"))   \
             .filter(col("AverageFare") > 50)               \
             .sort(col("AverageFare").desc())               \
@@ -67,3 +72,7 @@ results = df.groupBy("CabNumber")                          \
 
 # Perform a groupBy, and print out the type
 print(type(df.groupBy("CabNumber")))
+
+# COMMAND ----------
+
+

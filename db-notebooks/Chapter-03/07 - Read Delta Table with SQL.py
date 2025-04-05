@@ -23,6 +23,11 @@
 # COMMAND ----------
 
 # MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
+
+# COMMAND ----------
+
+# MAGIC %sql
 # MAGIC DROP TABLE IF EXISTS taxidb.YellowTaxis;
 
 # COMMAND ----------
@@ -32,14 +37,8 @@
 
 # COMMAND ----------
 
-#%sh
-# This is our Delta file created by the "00 - Chapter Initialization" notebook
-#ls -al /dbfs/mnt/datalake/book/chapter03/YellowTaxisDelta/
-
-for f in dbutils.fs.ls("dbfs:/mnt/datalake/book/chapter03/YellowTaxis.delta/"):
-    size = f"{f.size:,}".rjust(10)
-    typ = "DIR " if f.isDir else "FILE"
-    print(f"{typ} {size}  {f.name}")
+# MAGIC %fs
+# MAGIC ls /mnt/datalake/book/chapter03/YellowTaxis.delta/
 
 # COMMAND ----------
 
@@ -73,11 +72,6 @@ for f in dbutils.fs.ls("dbfs:/mnt/datalake/book/chapter03/YellowTaxis.delta/"):
 
 # MAGIC %sql
 # MAGIC DESCRIBE TABLE FORMATTED taxidb.YellowTaxis;
-
-# COMMAND ----------
-
-# MAGIC %sh
-# MAGIC ls -al /dbfs/mnt/
 
 # COMMAND ----------
 
@@ -128,3 +122,7 @@ LIMIT {number_of_results}"""
 
 df = spark.sql(sql_statement)
 display(df)
+
+# COMMAND ----------
+
+
