@@ -53,10 +53,6 @@ display(dbutils.fs.ls("/FileStore/tables/data/"))
 
 # COMMAND ----------
 
-# dbutils.fs.mkdirs("/mnt/datalake/book/chapter08/")
-
-# COMMAND ----------
-
 # MAGIC %md
 # MAGIC ###Step 3 - Copy over the YellowTaxisParquet file
 

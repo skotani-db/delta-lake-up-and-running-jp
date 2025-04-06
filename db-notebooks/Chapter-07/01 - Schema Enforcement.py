@@ -39,11 +39,15 @@ from pyspark.sql.types import *
 
 # COMMAND ----------
 
+dbutils.fs.cp("dbfs:/mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/00000000000000000000.json", "file:/tmp/00000000000000000000.json")
+
+# COMMAND ----------
+
 # MAGIC %sh
 # MAGIC # The schemaString is part of the metaData action of the Transaction Log entry
 # MAGIC # The schemaString contains the full schema of the Delta file at the time that the 
 # MAGIC # log entry was written
-# MAGIC grep "metadata" /dbfs/mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/00000000000000000000.json > /tmp/commit.json
+# MAGIC grep "metadata" /tmp/00000000000000000000.json > /tmp/commit.json
 # MAGIC python -m json.tool < /tmp/commit.json
 
 # COMMAND ----------
@@ -122,20 +126,19 @@ df.write           \
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC # Create a listing of all transaction log entries. 
-# MAGIC # We notice that there are only two entries.
-# MAGIC # The first entry represents the creation of the table
-# MAGIC # The second entry is the append of the valid dataframe
-# MAGIC # There is no entry for the above code since the exception 
-# MAGIC # occured, resulting in a rollback of the transaction
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/*.json
+# Create a listing of all transaction log entries. 
+# We notice that there are only two entries.
+# The first entry represents the creation of the table
+# The second entry is the append of the valid dataframe
+# There is no entry for the above code since the exception 
+# occured, resulting in a rollback of the transaction
+%fs
+ls /mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/*.json
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC # Validate the the 1.json entry is indeed the append of the valid data
-# MAGIC cat /dbfs/mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/00000000000000000001.json
+# MAGIC %fs
+# MAGIC head /mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/00000000000000000001.json
 
 # COMMAND ----------
 

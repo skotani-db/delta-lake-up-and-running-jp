@@ -100,8 +100,12 @@ df.printSchema()
 
 # COMMAND ----------
 
+dbutils.fs.cp("/mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/00000000000000000003.json", "file:/tmp/00000000000000000003.json")
+
+# COMMAND ----------
+
 # MAGIC %sh
-# MAGIC grep "metadata" /dbfs/mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/00000000000000000003.json > /tmp/commit.json
+# MAGIC grep "metadata" /tmp/00000000000000000003.json > /tmp/commit.json
 # MAGIC python -m json.tool < /tmp/commit.json
 
 # COMMAND ----------
@@ -146,11 +150,8 @@ df.write                         \
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC # We see the part files being added
-# MAGIC cat /dbfs/mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/00000000000000000004.json
-# MAGIC
-# MAGIC
+# MAGIC %fs
+# MAGIC head /mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/00000000000000000004.json
 
 # COMMAND ----------
 
@@ -164,9 +165,8 @@ dbutils.fs.rm("dbfs:/mnt/datalake/book/chapter07/TaxiRateCode.delta", recurse=Tr
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC # Verify our cleanup
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log 
+# MAGIC %fs
+# MAGIC ls /mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log 
 
 # COMMAND ----------
 
@@ -193,19 +193,15 @@ df.printSchema()
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC # Check our tranaction log entries
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/*.json
+log_files = dbutils.fs.ls("/mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/")
+for file_info in log_files:
+    if file_info.path.endswith('.json'):
+        print(file_info.path)
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC # In our transaction log we will see the commitInfo action and
-# MAGIC # the metadata action with our schema, confirming the short data type
-# MAGIC # We also have an "add" action with the first part file
-# MAGIC cat /dbfs/mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/00000000000000000000.json
-# MAGIC
-# MAGIC
+# MAGIC %fs
+# MAGIC head /mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/00000000000000000000.json
 
 # COMMAND ----------
 
@@ -236,15 +232,20 @@ df.printSchema()
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC # We now see our additional Transaction Entry
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/*.json
+log_files = dbutils.fs.ls("/mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/")
+for file_info in log_files:
+    if file_info.path.endswith('.json'):
+        print(file_info.path)
+
+# COMMAND ----------
+
+dbutils.fs.cp("mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/00000000000000000001.json", "file:/tmp/00000000000000000001.json")
 
 # COMMAND ----------
 
 # MAGIC %sh
 # MAGIC # When we look at the metadata, we can see that RateCodeId indeed has the integer data type now
-# MAGIC grep "metadata" /dbfs/mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/00000000000000000001.json > /tmp/commit.json
+# MAGIC grep "metadata" /tmp/00000000000000000001.json > /tmp/commit.json
 # MAGIC python -m json.tool < /tmp/commit.json
 
 # COMMAND ----------
@@ -291,15 +292,20 @@ df.printSchema()
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC # Notice our latest transaction log entry
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/*.json
+log_files = dbutils.fs.ls("/mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/")
+for file_info in log_files:
+    if file_info.path.endswith('.json'):
+        print(file_info.path)
+
+# COMMAND ----------
+
+dbutils.fs.cp("/mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/00000000000000000002.json", "file:/tmp/00000000000000000002.json")
 
 # COMMAND ----------
 
 # MAGIC %sh
 # MAGIC # We can see that the RateCodeExp column has a void (aka NullType) data type
-# MAGIC grep "metadata" /dbfs/mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/00000000000000000002.json > /tmp/commit.json
+# MAGIC grep "metadata" /tmp/00000000000000000002.json > /tmp/commit.json
 # MAGIC python -m json.tool < /tmp/commit.json
 
 # COMMAND ----------
