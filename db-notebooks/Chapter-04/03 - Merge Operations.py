@@ -207,8 +207,10 @@ yellowTaxisMergeDataFrame.createOrReplaceTempView("YellowTaxiMergeData")
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter04/YellowTaxisDelta/*.parquet
+log_files = dbutils.fs.ls("/mnt/datalake/book/chapter04/YellowTaxisDelta/")
+for file_info in log_files:
+    if file_info.path.endswith('.parquet'):
+        print(file_info.path)
 
 # COMMAND ----------
 
