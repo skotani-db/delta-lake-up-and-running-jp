@@ -38,9 +38,8 @@ from pyspark.sql.functions import current_timestamp
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC # List the files in our source Delta Table
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter08/LimitedRecords.delta
+# MAGIC %fs
+# MAGIC ls /mnt/datalake/book/chapter08/LimitedRecords.delta
 
 # COMMAND ----------
 
@@ -64,8 +63,8 @@ from pyspark.sql.functions import current_timestamp
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter08
+# MAGIC %fs
+# MAGIC ls /mnt/datalake/book/chapter08
 
 # COMMAND ----------
 

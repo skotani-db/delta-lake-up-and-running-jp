@@ -37,7 +37,7 @@ from pyspark.sql.types import IntegerType
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC drop database if exists taxidb cascade
+# MAGIC DROP DATABASE IF EXISTS taxidb CASCADE
 
 # COMMAND ----------
 
@@ -73,8 +73,8 @@ dbutils.fs.rm("/mnt/datalake/book/chapter07/TaxiRateCode.delta", recurse=True)
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC cat /dbfs/mnt/datalake/book/chapter07/taxi_rate_code.csv
+# MAGIC %fs
+# MAGIC head /mnt/datalake/book/chapter07/taxi_rate_code.csv
 
 # COMMAND ----------
 
@@ -138,13 +138,13 @@ df.printSchema()
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log
+# MAGIC %fs
+# MAGIC ls /mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC cat /dbfs/mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/00000000000000000000.json
+# MAGIC %fs
+# MAGIC head /mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log/00000000000000000000.json
 
 # COMMAND ----------
 

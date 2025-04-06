@@ -46,7 +46,7 @@ dbutils.fs.rm('/mnt/datalake/book/chapter03/YellowTaxisDelta/', recurse=True)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###2 - Rebuild the YellowTaxis table
+# MAGIC ###2 - YellowTaxisテーブルを再構築
 
 # COMMAND ----------
 
@@ -80,7 +80,7 @@ dbutils.fs.rm('/mnt/datalake/book/chapter03/YellowTaxisDelta/', recurse=True)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###3 - Insert data with a SQL statement
+# MAGIC ###3 - SQLでデータを挿入
 
 # COMMAND ----------
 
@@ -101,7 +101,7 @@ dbutils.fs.rm('/mnt/datalake/book/chapter03/YellowTaxisDelta/', recurse=True)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###4 - Performa SELECT * from the Delta Table to ensure that the data was indeed loaded
+# MAGIC ###4 - SELECT句でDeltaテーブルへデータがロードされたか確認する
 
 # COMMAND ----------
 
@@ -111,7 +111,7 @@ dbutils.fs.rm('/mnt/datalake/book/chapter03/YellowTaxisDelta/', recurse=True)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###5 - Load the schema from the Delta Table
+# MAGIC ###5 - Deltaテーブルからスキーマをロードする
 
 # COMMAND ----------
 
