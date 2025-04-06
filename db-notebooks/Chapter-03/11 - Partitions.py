@@ -30,13 +30,13 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ###1 - Create a YellowTaxisPartitioned Delta Table that is partitioned by VendorId
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC USE CATALOG hive_metastore
+# MAGIC %md
+# MAGIC ###1 - Create a YellowTaxisPartitioned Delta Table that is partitioned by VendorId
 
 # COMMAND ----------
 
@@ -136,7 +136,7 @@ input_df                                                               \
 # MAGIC DROP TABLE IF EXISTS taxidb.yellowTaxisPartitioned
 
 # COMMAND ----------
-
+# Delete the Delta Files for the table
 dbutils.fs.rm("/mnt/datalake/book/chapter03/YellowTaxisDeltaPartitioned", recurse=True)
 
 # COMMAND ----------
@@ -296,7 +296,5 @@ spark.read                                                              \
 # MAGIC     taxidb.yellowtaxispartitioned
 # MAGIC ORDER BY 
 # MAGIC     PaymentType
-
-# COMMAND ----------
 
 
