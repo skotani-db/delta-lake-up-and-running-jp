@@ -85,13 +85,11 @@
 # MAGIC SELECT 
 # MAGIC     CabNumber,
 # MAGIC     AVG(FareAmount) AS AverageFare
-# MAGIC --    AVG(PickupMonth) AS Count
 # MAGIC FROM
 # MAGIC     taxidb.yellowtaxis
 # MAGIC GROUP BY
 # MAGIC     CabNumber
 # MAGIC HAVING
-# MAGIC --     AVG(PickupYear) > 1
 # MAGIC        AVG(FareAmount)>50
 # MAGIC ORDER BY
 # MAGIC     2 DESC

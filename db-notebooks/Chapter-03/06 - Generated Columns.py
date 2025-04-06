@@ -62,15 +62,6 @@
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC -- あとで消すやつ
-# MAGIC -- When we run the DESCRIBE EXTENDED command on a manageed table, we see
-# MAGIC -- that the files for the table are located under the /user/hive/warehouse
-# MAGIC -- directory
-# MAGIC DESCRIBE TABLE EXTENDED taxidb.yellowtaxis
-
-# COMMAND ----------
-
 # MAGIC %md
 # MAGIC ###3 - Perform a select of the relevant columns to ensure that our GENERATED columns are correct
 
@@ -79,15 +70,6 @@
 # MAGIC %sql
 # MAGIC -- Illustrate that our GENERATED columns were calculated correctly
 # MAGIC SELECT PickupTime, PickupYear, PickupMonth, PickupDay FROM taxidb.YellowTaxis
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC -- あとで消すやつ
-# MAGIC -- When we run the DESCRIBE EXTENDED command on a manageed table, we see
-# MAGIC -- that the files for the table are located under the /user/hive/warehouse
-# MAGIC -- directory
-# MAGIC DESCRIBE TABLE EXTENDED taxidb.yellowtaxis
 
 # COMMAND ----------
 
