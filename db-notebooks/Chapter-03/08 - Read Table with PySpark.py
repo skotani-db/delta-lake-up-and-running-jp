@@ -20,13 +20,13 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ###1 - Use pySpark to get a record count
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC USE CATALOG hive_metastore;
+# MAGIC %md
+# MAGIC ###1 - Use pySpark to get a record count
 
 # COMMAND ----------
 
