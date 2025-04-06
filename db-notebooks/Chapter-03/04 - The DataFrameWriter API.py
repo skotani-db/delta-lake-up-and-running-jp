@@ -33,16 +33,15 @@
 INPUT_PATH = '/FileStore/tables/data/nyctaxi/taxizone/taxi_rate_code.csv'
 DELTALAKE_PATH = 'dbfs:/mnt/datalake/book/chapter03/createDeltaTableWithDataFrameWriter'
 
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
 
 # COMMAND ----------
 
 # MAGIC %md
 # MAGIC ###1 - Drop the taxidb.rateCard table
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC USE CATALOG hive_metastore;
 
 # COMMAND ----------
 
