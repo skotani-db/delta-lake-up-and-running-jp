@@ -78,11 +78,21 @@ print(os.listdir('/dbfs/'+destination_path))
 
 # COMMAND ----------
 
+json_files = []
+log_files = dbutils.fs.ls("/mnt/datalake/book/chapter05/YellowTaxisPartitionedDelta/_delta_log/")
+for file_info in log_files:
+    if file_info.path.endswith('.json'):
+        json_files.append(file_info.path)
+
+dbutils.fs.cp(json_files[-1], f"file:/tmp/source.json")
+
+# COMMAND ----------
+
 # DBTITLE 1,Show AddFile metadata entry for partition
 # MAGIC %sh
 # MAGIC # find the last transaction entry and search for "add" to find an added file
 # MAGIC # the output will show you the partitionValues
-# MAGIC grep "\"add"\" "$(ls -1rt /dbfs/mnt/datalake/book/chapter05/YellowTaxisPartitionedDelta/_delta_log/*.json | tail -n1)" | sed -n 1p > /tmp/commit.json | sed -n 1p > /tmp/commit.json
+# MAGIC grep "\"add"\" "$(ls -1rt /tmp/source.json | tail -n1)" | sed -n 1p > /tmp/commit.json
 # MAGIC python -m json.tool < /tmp/commit.json
 
 # COMMAND ----------
