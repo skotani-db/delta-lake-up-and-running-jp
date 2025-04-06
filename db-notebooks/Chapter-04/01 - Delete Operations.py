@@ -166,7 +166,7 @@ dbutils.fs.cp("mnt/datalake/book/chapter04/YellowTaxisDelta/_delta_log/000000000
 # COMMAND ----------
 
 # MAGIC %sh
-# MAGIC grep "remove" /dbfs/mnt/datalake/book/chapter04/YellowTaxisDelta/_delta_log/00000000000000000002.json > /tmp/commit.json
+# MAGIC grep "remove" /tmp/00000000000000000002.json > /tmp/commit.json
 # MAGIC python -m json.tool < /tmp/commit.json
 
 # COMMAND ----------
