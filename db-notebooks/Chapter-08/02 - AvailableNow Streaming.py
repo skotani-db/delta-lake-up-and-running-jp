@@ -174,7 +174,7 @@ for file_info in log_files:
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC describe history delta.`/mnt/datalake/book/chapter08/LimitedRecords.delta`
+# MAGIC DESCRIBE HISTORY delta.`/mnt/datalake/book/chapter08/LimitedRecords.delta`
 
 # COMMAND ----------
 
@@ -221,7 +221,7 @@ print(streamQuery.recentProgress[0]["numInputRows"])
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC select * from taxidb.limitedyellowtaxis;
+# MAGIC SELECT * FROM taxidb.limitedyellowtaxis;
 # MAGIC
 
 # COMMAND ----------

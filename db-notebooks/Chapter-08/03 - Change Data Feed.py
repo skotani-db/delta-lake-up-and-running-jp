@@ -228,8 +228,8 @@ cdc_df.display()
 
 # COMMAND ----------
 
-# MAGIC  %md
-# MAGIC  ###Step 7 - Streaming Table Changes
+# MAGIC %md
+# MAGIC ###Step 7 - Streaming Table Changes
 
 # COMMAND ----------
 

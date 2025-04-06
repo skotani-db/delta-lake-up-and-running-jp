@@ -33,12 +33,12 @@ from pyspark.sql.types import *
 
 # DBTITLE 1,Perform some cleanup from the previous chapter
 # MAGIC %sql
-# MAGIC delete from taxidb.taxiratecode where RateCodeId >= 10
+# MAGIC DELETE FROM taxidb.taxiratecode WHERE RateCodeId >= 10
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC select * from taxidb.taxiratecode
+# MAGIC SELECT * FROM taxidb.taxiratecode
 
 # COMMAND ----------
 
@@ -91,10 +91,10 @@ df.printSchema()
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC   SELECT 
-# MAGIC       * 
-# MAGIC   FROM
-# MAGIC       delta.`/mnt/datalake/book/chapter07/TaxiRateCode.delta`
+# MAGIC SELECT 
+# MAGIC     * 
+# MAGIC FROM
+# MAGIC     delta.`/mnt/datalake/book/chapter07/TaxiRateCode.delta`
 # MAGIC ORDER BY
 # MAGIC     RateCodeId
 
@@ -165,14 +165,13 @@ dbutils.fs.rm("dbfs:/mnt/datalake/book/chapter07/TaxiRateCode.delta", recurse=Tr
 
 # COMMAND ----------
 
-# MAGIC %fs
-# MAGIC ls /mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log 
+dbutils.fs.ls("/mnt/datalake/book/chapter07/TaxiRateCode.delta/_delta_log")
 
 # COMMAND ----------
 
 # MAGIC %sql
 # MAGIC -- Drop the table
-# MAGIC drop table if exists taxidb.taxiratecode;
+# MAGIC DROP TABLE IF EXISTS taxidb.taxiratecode;
 
 # COMMAND ----------
 

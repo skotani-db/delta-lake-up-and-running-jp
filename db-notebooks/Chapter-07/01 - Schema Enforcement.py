@@ -122,7 +122,7 @@ df.write           \
 # MAGIC -- Validate that the previous operation did not write any data
 # MAGIC -- Verify that no RateCodeId >= 15
 # MAGIC -- records are present in the table
-# MAGIC select * from delta.`/mnt/datalake/book/chapter07/TaxiRateCode.delta`
+# MAGIC SELECT * FROM delta.`/mnt/datalake/book/chapter07/TaxiRateCode.delta`
 
 # COMMAND ----------
 

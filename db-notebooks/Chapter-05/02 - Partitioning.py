@@ -74,7 +74,7 @@ spark.sql(f"""CREATE TABLE IF NOT EXISTS taxidb.tripDataPartitioned USING DELTA 
 import os
 
 # list files and directories in directory 
-print(os.listdir('/dbfs/'+destination_path))
+print([d.name for d in dbutils.fs.ls(destination_path)])
 
 # COMMAND ----------
 

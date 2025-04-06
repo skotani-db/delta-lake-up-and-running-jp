@@ -83,7 +83,7 @@ df.show()
 # MAGIC %sql
 # MAGIC -- Perform a SELECT, verify that we are indeed starting with our default 
 # MAGIC -- 6 records
-# MAGIC select * from taxidb.TaxiRateCode
+# MAGIC SELECT * FROM taxidb.TaxiRateCode
 
 # COMMAND ----------
 
@@ -106,7 +106,7 @@ df.show()
 
 # MAGIC %sql
 # MAGIC -- Show that the values for the new columns are NULL, as expected
-# MAGIC select * from delta.`/mnt/datalake/book/chapter07/TaxiRateCode.delta`
+# MAGIC SELECT * FROM delta.`/mnt/datalake/book/chapter07/TaxiRateCode.delta`
 
 # COMMAND ----------
 
@@ -315,7 +315,7 @@ for file_info in log_files:
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC select * from taxidb.taxiratecode
+# MAGIC SELECT * FROM taxidb.taxiratecode
 
 # COMMAND ----------
 

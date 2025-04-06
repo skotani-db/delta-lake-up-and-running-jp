@@ -101,8 +101,8 @@ limited_records_df.write.format("delta").mode("overwrite").save("/mnt/datalake/b
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter08/
+# MAGIC %fs
+# MAGIC ls /mnt/datalake/book/chapter08/
 
 # COMMAND ----------
 

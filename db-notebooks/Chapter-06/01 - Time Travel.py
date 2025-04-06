@@ -60,8 +60,8 @@
 # import OS module
 import os
 
-# count files in directory
-print(len(os.listdir('/dbfs/'+ '/mnt/datalake/book/chapter06/YellowTaxisDelta')))
+# list files and directories in directory 
+print([d.name for d in dbutils.fs.ls('/mnt/datalake/book/chapter06/YellowTaxisDelta')])
 
 # COMMAND ----------
 
