@@ -24,13 +24,13 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ###1 - Drop the YellowTaxis table and it's underlying Delta Files
+# MAGIC %sql
+# MAGIC USE CATALOG hive_metastore;
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC USE CATALOG hive_metastore;
+# MAGIC %md
+# MAGIC ###1 - Drop the YellowTaxis table and it's underlying Delta Files
 
 # COMMAND ----------
 
@@ -254,6 +254,5 @@ df_for_append.write                     \
 # MAGIC %fs
 # MAGIC ls /mnt/datalake/book/chapter03/YellowTaxisDelta
 
-# COMMAND ----------
 
 
