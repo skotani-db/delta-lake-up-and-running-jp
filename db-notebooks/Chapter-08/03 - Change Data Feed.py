@@ -35,7 +35,7 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC drop database if exists cdf cascade
+# MAGIC DROP DATABASE IF EXISTS cdf CASCADE
 
 # COMMAND ----------
 
@@ -44,8 +44,7 @@
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC rm -r /dbfs/mnt/datalake/book/chapter08/cdf/DimSalesRep
+dbutils.fs.rm("/mnt/datalake/book/chapter08/cdf/DimSalesRep", recurse=True)
 
 # COMMAND ----------
 
@@ -72,8 +71,8 @@
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter08/cdf/DimSalesRep
+# MAGIC %fs
+# MAGIC ls /mnt/datalake/book/chapter08/cdf/DimSalesRep
 
 # COMMAND ----------
 
@@ -97,9 +96,8 @@
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC # You will notice that inserts do not generate anything new
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter08/cdf/DimSalesRep
+# MAGIC %fs
+# MAGIC ls /mnt/datalake/book/chapter08/cdf/DimSalesRep
 
 # COMMAND ----------
 
@@ -165,23 +163,25 @@
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter08/cdf/DimSalesRep
+# MAGIC %fs
+# MAGIC ls /mnt/datalake/book/chapter08/cdf/DimSalesRep
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter08/cdf/DimSalesRep/_change_data
+# MAGIC %fs
+# MAGIC ls /mnt/datalake/book/chapter08/cdf/DimSalesRep/_change_data
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter08/cdf/DimSalesRep/_delta_log/*.json
+log_files = dbutils.fs.ls("/mnt/datalake/book/chapter08/StreamingTarget/_delta_log/")
+for file_info in log_files:
+    if file_info.path.endswith('.json'):
+        print(file_info.path)
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC head /dbfs/mnt/datalake/book/chapter08/cdf/DimSalesRep/_delta_log/00000000000000000002.json
+# MAGIC %fs
+# MAGIC head /mnt/datalake/book/chapter08/cdf/DimSalesRep/_delta_log/00000000000000000002.json
 
 # COMMAND ----------
 
@@ -190,28 +190,26 @@
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC rm -r /dbfs/mnt/datalake/book/chapter08/CDCEval/
+dbutils.fs.rm("/mnt/datalake/book/chapter08/CDCEval/", recurse=True)
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC mkdir /dbfs/mnt/datalake/book/chapter08/CDCEval/
+dbutils.fs.cp("/mnt/datalake/book/chapter08/cdf/DimSalesRep/_change_data/", "/mnt/datalake/book/chapter08/CDCEval/", recurse=True)
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC cp /dbfs/mnt/datalake/book/chapter08/cdf/DimSalesRep/_change_data/cdc*.parquet /dbfs/mnt/datalake/book/chapter08/CDCEval/
+# MAGIC %fs
+# MAGIC ls /mnt/datalake/book/chapter08/CDCEval/
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter08/CDCEval/
+cdc_files = dbutils.fs.ls("/mnt/datalake/book/chapter08/CDCEval/")
+cdc_file_1, cdc_file_2 = [file.name for file in cdc_files[:2]]
 
 # COMMAND ----------
 
-cdc_df1 = spark.read.parquet("/mnt/datalake/book/chapter08/CDCEval/cdc-00000-b80eb2e5-9019-43a4-b77e-de6bfe0a6b88.c000.snappy.parquet")
-cdc_df2 = spark.read.parquet("/mnt/datalake/book/chapter08/CDCEval/cdc-00001-3a46b2fe-a469-4b03-85a3-1ce4079fd8f2.c000.snappy.parquet")
+cdc_df1 = spark.read.parquet(f"/mnt/datalake/book/chapter08/CDCEval/{cdc_file_1}")
+cdc_df2 = spark.read.parquet(f"/mnt/datalake/book/chapter08/CDCEval/{cdc_file_2}")
 cdc_df = cdc_df1.union(cdc_df2)
 cdc_df.display()
 

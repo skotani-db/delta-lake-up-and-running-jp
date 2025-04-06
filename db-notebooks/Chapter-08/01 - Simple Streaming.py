@@ -150,28 +150,28 @@ streamQuery =                                                         \
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter08/StreamingTarget/_checkpoint/
+# MAGIC %fs
+# MAGIC ls /mnt/datalake/book/chapter08/StreamingTarget/_checkpoint/
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC head /dbfs/mnt/datalake/book/chapter08/StreamingTarget/_checkpoint/metadata
+# MAGIC %fs
+# MAGIC head /mnt/datalake/book/chapter08/StreamingTarget/_checkpoint/metadata
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter08/StreamingTarget/_checkpoint/offsets
+# MAGIC %fs
+# MAGIC ls /mnt/datalake/book/chapter08/StreamingTarget/_checkpoint/offsets
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC head /dbfs/mnt/datalake/book/chapter08/StreamingTarget/_checkpoint/offsets/0
+# MAGIC %fs
+# MAGIC head /mnt/datalake/book/chapter08/StreamingTarget/_checkpoint/offsets/0
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC head /dbfs/mnt/datalake/book/chapter08/StreamingTarget/_checkpoint/offsets/1
+# MAGIC %fs
+# MAGIC head /mnt/datalake/book/chapter08/StreamingTarget/_checkpoint/offsets/1
 
 # COMMAND ----------
 
@@ -180,23 +180,23 @@ streamQuery =                                                         \
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter08/StreamingTarget/_checkpoint/commits
+# MAGIC %fs
+# MAGIC ls /mnt/datalake/book/chapter08/StreamingTarget/_checkpoint/commits
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC head /dbfs/mnt/datalake/book/chapter08/StreamingTarget/_checkpoint/commits/0
+# MAGIC %fs
+# MAGIC head /mnt/datalake/book/chapter08/StreamingTarget/_checkpoint/commits/0
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC head /dbfs/mnt/datalake/book/chapter08/StreamingTarget/_checkpoint/commits/1
+# MAGIC %fs
+# MAGIC head /mnt/datalake/book/chapter08/StreamingTarget/_checkpoint/commits/1
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC ls -al /dbfs/mnt/datalake/book/chapter08/StreamingTarget
+# MAGIC %fs
+# MAGIC ls /mnt/datalake/book/chapter08/StreamingTarget
 
 # COMMAND ----------
 
