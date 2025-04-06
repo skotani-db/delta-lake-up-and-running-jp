@@ -25,7 +25,7 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###1 - Create a Delta table using the file_format`path_to_table` specification
+# MAGIC ###1 - Deltaテーブルをfile_format`path_to_table`の指定で作成する
 
 # COMMAND ----------
 
@@ -35,8 +35,8 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC -- Create a Delta table by specifying the delta format, followed
-# MAGIC -- by the path in quotes
+# MAGIC -- Deltaフォーマットを指定して、テーブルを作成する
+# MAGIC -- パスをクオートで指定する
 # MAGIC CREATE TABLE IF NOT EXISTS delta.`/mnt/datalake/book/chapter03/rateCard`
 # MAGIC (
 # MAGIC     rateCodeId   INT,
@@ -47,7 +47,7 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC -- Create the table using the taxidb catalog
+# MAGIC -- taxidbデータベースでテーブルを作成する
 # MAGIC CREATE TABLE IF NOT EXISTS taxidb.rateCard
 # MAGIC (
 # MAGIC     rateCodeId   INT,
@@ -64,17 +64,17 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC -- Show the tables in the taxidb database. We only have our rateCard table for now.
-# MAGIC -- Notice the lowercase name in the output. Hive will always store its object names
-# MAGIC -- in lower case. For readability purposes, the authors will continue to use the
-# MAGIC -- CamelCase name specified when the table was first created.
+# MAGIC -- taxidbデータベースのテーブルを表示します。今はrateCardテーブルだけを持っています。
+# MAGIC -- 出力では名前が小文字になっていることに注意してください。Hiveは常にオブジェクト名
+# MAGIC -- 小文字で保存されます。読みやすくするために、作者は引き続き
+# MAGIC -- テーブルが最初に作成されたときに指定されたキャメルケースの名前を使用し続けます。
 # MAGIC USE taxidb;
 # MAGIC SHOW TABLES;
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###3 - Run a directory listing on our table's files directory
+# MAGIC ###3 - テーブルのファイル・ディレクトリのリストを実行する
 
 # COMMAND ----------
 
@@ -84,7 +84,7 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###4 - Show the contents of the table's transaction log directory
+# MAGIC ###4 - テーブルのトランザクション・ログ・ディレクトリの内容を表示する
 
 # COMMAND ----------
 
@@ -94,7 +94,7 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###5 - Show the **metadata** entry in the transaction log entry
+# MAGIC ###5 - トランザクションログエントリーに**メタデータ**エントリーを表示する
 
 # COMMAND ----------
 
@@ -109,16 +109,14 @@ dbutils.fs.cp("dbfs:/mnt/datalake/book/chapter03/rateCard/_delta_log/00000000000
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###6 - Created a new Managed table
-# MAGIC (potentially remove)
+# MAGIC ###6 - 新しいマネージドテーブルを作成
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC -- In this CREATE TABLE statement we do NOT specif a location,
-# MAGIC -- making it a MANAGED table. This table is managed by hive
-# MAGIC -- and it file contents will be stored in the 
-# MAGIC -- /user/hive/warehouse/<database name>.db/<table name> directory
+# MAGIC -- このCREATE TABLE文では、場所を指定していないマネージドテーブルが作成されます
+# MAGIC -- このテーブルはhiveによって管理され
+# MAGIC -- /user/hive/warehouse/<データベース名>.db/<テーブル名> ディレクトリに格納されます。
 # MAGIC CREATE TABLE IF NOT EXISTS taxidb.rateCardManaged
 # MAGIC (
 # MAGIC     rateCodeId   INT,
@@ -128,8 +126,7 @@ dbutils.fs.cp("dbfs:/mnt/datalake/book/chapter03/rateCard/_delta_log/00000000000
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###7 - Show a directory listing of the managed table
-# MAGIC (potentially remove)
+# MAGIC ###7 - マネージドテーブルのディレクトリ一覧を表示
 
 # COMMAND ----------
 

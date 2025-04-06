@@ -20,21 +20,20 @@
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC ###1 - pySpark を使用してレコード数を取得します
+
+# COMMAND ----------
+
 # MAGIC %sql
 # MAGIC USE CATALOG hive_metastore;
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ###1 - Use pySpark to get a record count
-
-# COMMAND ----------
-
-# Note that we can use the .table format to read the entire table
+# .table 形式を使用してテーブル全体を読み取ることができることに注意してください
 df = spark.read.format("delta").table("taxidb.YellowTaxis")
 
-# Notice the thousands formatter, which makes the result
-# a bit easier to read
+# 千単位のフォーマッタにより、結果が少し読みやすくなります
 print(f"Number of records: {df.count():,}")
 
 # COMMAND ----------
@@ -44,33 +43,31 @@ print(f"Number of records: {df.count():,}")
 
 # COMMAND ----------
 
-# Make sure to import the functions you want to use
+# 使用する関数を必ずインポートしてください
 from pyspark.sql.functions import col, avg, desc
 
-# Read YellowTaxis into our dataframe
+# YellowTaxis をデータフレームに読み込みます
 df = spark.read.format("delta").table("taxidb.YellowTaxis")
 
-# Perform the group by, average, having and order by equivalents
-# in pySpark
+# pySpark で、group by、average、having、order by の同等のものを実行します
 results = df.groupBy("VendorID")                          \
             .agg(avg("FareAmount").alias("AverageFare"))   \
             .filter(col("AverageFare") > 50)               \
             .sort(col("AverageFare").desc())               \
             .take(5)                                      
 
-# Print out the result, since this is a list and not a DataFrame 
-# you can use list comprehension to output the results in a single
-# line
+# これはリストであり DataFrame ではないため、結果を出力します
+# リストの理解を使用して、結果を 1 行で出力できます
 [print(result) for result in results]
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###3 - Illustrate that .groupBy() creates a pyspark.sql.GroupedDate instance and not a DataFrame
+# MAGIC ###3 - .groupBy() が DataFrame ではなく pyspark.sql.GroupedDate インスタンスを作成することを示します
 
 # COMMAND ----------
 
-# Perform a groupBy, and print out the type
+# groupBy を実行し、タイプを出力します
 print(type(df.groupBy("CabNumber")))
 
 # COMMAND ----------

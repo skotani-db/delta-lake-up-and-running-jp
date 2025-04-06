@@ -33,7 +33,7 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###1 - Create a Delta Table on top of a Delta File
+# MAGIC ###1 - デルタ ファイル上にデルタ テーブルを作成する
 
 # COMMAND ----------
 
@@ -43,8 +43,7 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC -- Syntax to create a Delta Table on top of an existing
-# MAGIC -- Delta File
+# MAGIC -- 既存のデルタ ファイル上にデルタ テーブルを作成する構文
 # MAGIC CREATE TABLE taxidb.YellowTaxis
 # MAGIC USING DELTA
 # MAGIC LOCATION "/mnt/datalake/book/chapter03/YellowTaxisDelta/"
@@ -53,7 +52,7 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###2- Quick record count with SQL
+# MAGIC ###2 - SQL によるクイック レコード カウント
 
 # COMMAND ----------
 
@@ -66,7 +65,7 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###3 - Perform a DESCRIBE FORMATTED of the table
+# MAGIC ###3 - テーブルの DESCRIBE FORMATTED を実行する
 
 # COMMAND ----------
 
@@ -76,12 +75,12 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###4 - Illustrate the use of ANSI SQL in a more advanced query
+# MAGIC ###4 - より高度なクエリでの ANSI SQL の使用法を示す
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC -- Demonstrate the Spark SQL supports ANSI-SQL constructs
+# MAGIC -- Spark SQL が ANSI-SQL 構造をサポートしていることを実証する
 # MAGIC SELECT 
 # MAGIC     CabNumber,
 # MAGIC     AVG(FareAmount) AS AverageFare
@@ -98,7 +97,7 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###5 - Demonstrate the use of spark.sql in Python
+# MAGIC ###5 - Python での spark.sql の使用法を示す
 
 # COMMAND ----------
 

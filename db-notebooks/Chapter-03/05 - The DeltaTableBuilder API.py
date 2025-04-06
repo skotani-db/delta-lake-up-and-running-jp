@@ -28,7 +28,7 @@ from delta.tables import *
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###1. Create a managed table using the DeltaTableBuilder API
+# MAGIC ###1. DeltaTableBuilder API を使用してマネージド・テーブルを作成する
 
 # COMMAND ----------
 
@@ -39,8 +39,8 @@ from delta.tables import *
 
 # DBTITLE 1,Create the greentaxis table as an unmanaged table
 #
-# In this Create Table, we do NOT specify a location, so we are 
-# creating a MANAGED table
+# このテーブル作成では、場所は指定しない。
+# MANAGEDテーブルを作成している
 #
 DeltaTable.createIfNotExists(spark)                              \
     .tableName("taxidb.greenTaxis")                              \
@@ -63,21 +63,21 @@ DeltaTable.createIfNotExists(spark)                              \
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###2. Use the DESCRIBE EXTENDED command to look at the managed table created above
+# MAGIC ###2. DESCRIBE EXTENDED コマンドを使用して、上記で作成したマネージドテーブルを調べます。
 
 # COMMAND ----------
 
 # DBTITLE 0,Detailed look at the created table
 # MAGIC %sql
 # MAGIC --
-# MAGIC -- Let's take a look at the table
+# MAGIC -- テーブルを見てみましょう
 # MAGIC --
 # MAGIC DESCRIBE TABLE EXTENDED taxidb.greentaxis
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###3. Drop the table, so we can re-create it as an unmanaged table
+# MAGIC ###3. ###3. テーブルを削除し、外部テーブルとして再作成します。
 
 # COMMAND ----------
 
@@ -87,14 +87,14 @@ DeltaTable.createIfNotExists(spark)                              \
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###4. Create an unmanaged table using the DeltaTableBuilder API
+# MAGIC ###4. DeltaTableBuilder API を使用して外部テーブルを作成する
 
 # COMMAND ----------
 
 # DBTITLE 1,Create the greentaxis table as an unmanaged table
 #
-# In this Create Table, we do specify a location, so we are 
-# creating a UNMANAGED table
+# このテーブル作成では、場所を指定している。
+# 外部テーブルを作成している
 #
 DeltaTable.createIfNotExists(spark)                              \
     .tableName("taxidb.greenTaxis")                              \
@@ -119,7 +119,7 @@ DeltaTable.createIfNotExists(spark)                              \
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###5 - Use DESCRIBE EXTENDED to study the unmanaged taxidb.greenTaxis table
+# MAGIC ###5 - 管理されていない taxidb.greenTaxis テーブルを調べるには DESCRIBE EXTENDED を使用します。
 
 # COMMAND ----------
 

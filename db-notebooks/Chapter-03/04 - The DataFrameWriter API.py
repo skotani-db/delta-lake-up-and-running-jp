@@ -27,11 +27,14 @@
 
 # COMMAND ----------
 
-#INPUT_PATH = '/databricks-datasets/nyctaxi/taxizone/taxi_rate_code.csv'
-#DELTALAKE_PATH = 'dbfs:/mnt/datalake/book/chapter03/createDeltaTableWithDataFrameWriter'
-
 INPUT_PATH = '/FileStore/tables/data/nyctaxi/taxizone/taxi_rate_code.csv'
 DELTALAKE_PATH = 'dbfs:/mnt/datalake/book/chapter03/createDeltaTableWithDataFrameWriter'
+
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ###1 - taxidb.rateCardテーブルを削除する
 
 # COMMAND ----------
 
@@ -40,24 +43,19 @@ DELTALAKE_PATH = 'dbfs:/mnt/datalake/book/chapter03/createDeltaTableWithDataFram
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ###1 - Drop the taxidb.rateCard table
-
-# COMMAND ----------
-
 # MAGIC %sql
-# MAGIC -- You will be re-creating the taxidb.rateCard table from a .CSV
-# MAGIC -- file, so you first need to drop it here
+# MAGIC -- CSVファイルからtaxidb.rateCardテーブルを再作成します。
+# MAGIC -- ファイルから再作成するので、まずそれをここにドロップする必要がある。
 # MAGIC DROP TABLE IF EXISTS taxidb.rateCard;
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###2 - Read in our taxi_rate_code.csv file 
+# MAGIC ###2 - taxi_rate_code.csvファイルを読み込む
 
 # COMMAND ----------
 
-# Read the Dataframe from the input path
+# 入力パスからデータフレームを読み込む
 df_rate_codes = spark                                              \
                 .read                                              \
                 .format("csv")                                     \
@@ -70,31 +68,30 @@ display(df_rate_codes)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###3 - Write the DataFrame as a managed Delta table
+# MAGIC ###3 - ###3 - マネージド・デルタ・テーブルとして DataFrame を書き込む
 
 # COMMAND ----------
 
-# Save our DataFrame as a managed Delta table
-# You know that the table is managed since no location path was 
-# specified
+# DataFrameをマネージドデルタテーブルとして保存する
+# ロケーションパスが指定されていないため、テーブルがマネージドであることがわかる
 df_rate_codes.write.format("delta").saveAsTable('taxidb.rateCard')
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###4 - Do a DESCRIBE EXTENDED on the rateCard managed table
+# MAGIC ###4 - rateCard マネージドテーブルの DESCRIBE EXTENDED を実行する。
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC -- You can see that this is a managed table when
-# MAGIC -- you run a DESCRIBE EXTENDED on the table
+# MAGIC -- テーブルのDESCRIBE EXTENDEDを実行すると、これがマネージドテーブルであることがわかる。
+# MAGIC -- このテーブルに対してDESCRIBE EXTENDEDを実行すると、このテーブルがマネージドテーブルであることがわかります。
 # MAGIC DESCRIBE TABLE EXTENDED taxidb.rateCard;
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###5 - Peform a SELECT on the table to ensure that the data was successfully loaded from the .CSV file
+# MAGIC ###5 - テーブルにSELECTを実行し、.CSVファイルからデータが正常にロードされたことを確認する
 
 # COMMAND ----------
 
@@ -104,12 +101,12 @@ df_rate_codes.write.format("delta").saveAsTable('taxidb.rateCard')
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###6 - Delete the rateCard table, we will re-created it as an unmanaged table
+# MAGIC ###rateCard テーブルを削除し、アンマネージドテーブルとして再作成します。
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC -- Drop the existing table
+# MAGIC -- 既存のテーブルを削除する
 # MAGIC drop table if exists taxidb.rateCard;
 
 # COMMAND ----------
@@ -119,8 +116,8 @@ df_rate_codes.write.format("delta").saveAsTable('taxidb.rateCard')
 
 # COMMAND ----------
 
-# Next, create our Delta Table, specifying both 
-# the path and the Delta Table Name
+# 次に、デルタテーブルを作成する。
+# パスとデルタテーブル名の両方を指定する
 df_rate_codes                           \
         .write                          \
         .format("delta")                \
@@ -131,10 +128,10 @@ df_rate_codes                           \
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###8 - Display the records in the table
+# MAGIC ###8 - テーブルのレコードを表示する
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC -- Perform a select from our unmanaged table
+# MAGIC -- 管理されていないテーブルから select を実行する。
 # MAGIC select * from taxidb.rateCard

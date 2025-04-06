@@ -23,7 +23,7 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###1 - Run the DESCRIBE command on a Hive database
+# MAGIC ###1 - HiveデータベースでDESCRIBEコマンドを実行する
 
 # COMMAND ----------
 
@@ -33,45 +33,43 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC -- Running DESCRIBE on a database returns the namespace (aka teh database name), and comments
-# MAGIC -- entered while createing the database, the location for unmanaged tables in the database
-# MAGIC -- and the owner of the database
+# MAGIC -- データベースに対してDESCRIBEを実行すると、名前空間（別名、データベース名）、およびコメント
+# MAGIC -- データベースの作成時に入力されたコメント、データベース内の管理されていないテーブルの場所
+# MAGIC -- データベースの所有者が返される。
 # MAGIC DESCRIBE DATABASE taxidb;
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###2 - Run the DESCRIBE command on a Delta Table
+# MAGIC ###2 - DeltaテーブルのDESCRIBEコマンドの実行
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC -- Running the DESCRIBE command on a table returns the columns names 
-# MAGIC -- and Data Types, together with the partitioning information.
+# MAGIC -- テーブルに対してDESCRIBEコマンドを実行すると、カラム名とデータ型、そしてパーティション情報
+# MAGIC -- とデータ型、パーティショニング情報が返される。
 # MAGIC DESCRIBE TABLE taxidb.rateCard;
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###3 - Running the DESCRIBE EXTENDED command on a unmanaged table
+# MAGIC ###3 - 外部テーブルでの DESCRIBE EXTENDED コマンドの実行
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC -- Running the DESCRIBE EXTENDED command returns additional metadatata
-# MAGIC -- such as the Hive Database name, the location of the underlying Delta
-# MAGIC -- files and the table properties
+# MAGIC -- DESCRIBE EXTENDEDコマンドを実行すると、追加のメタデータが返されます。
+# MAGIC -- Hiveデータベース名、基礎となるDeltaテーブル プロパティなどです。
 # MAGIC DESCRIBE TABLE EXTENDED taxidb.rateCard;
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###4 - Running the DESCRIBE EXTENDED command on a managed table
+# MAGIC ###4 - マネージドテーブルで DESCRIBE EXTENDED コマンドを実行する
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC -- When we run the DESCRIBE EXTENDED command on a manageed table, we see
-# MAGIC -- that the files for the table are located under the /user/hive/warehouse
-# MAGIC -- directory
+# MAGIC -- 管理されているテーブルに対してDESCRIBE EXTENDEDコマンドを実行すると、以下のことがわかります。
+# MAGIC -- テーブルのファイルが /user/hive/warehouse ディレクトリの下にあることがわかります。
 # MAGIC DESCRIBE TABLE EXTENDED taxidb.rateCardManaged

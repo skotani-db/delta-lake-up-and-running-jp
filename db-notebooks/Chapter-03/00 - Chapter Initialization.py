@@ -20,29 +20,22 @@
 
 # COMMAND ----------
 
-%sql
-use catalog hive_metastore;
-
-# COMMAND ----------
-
 # MAGIC %md 
-# MAGIC ###1 - Drop the taxidb database and all of its tables
+# MAGIC ###1 - taxidbデータベースとそのテーブルを削除する
 
 # COMMAND ----------
 
 # DBTITLE 0,Drop the taxidb database and all of its tables
 # MAGIC %sql
+# MAGIC use catalog hive_metastore;
 # MAGIC drop database if exists taxidb cascade;
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###2 - Copy the YellowTaxisParquet file from DataFiles to chapter03
+# MAGIC ###2 - FileStoreからYellowTaxisデータのParquetを3章のフォルダへコピーする
 
 # COMMAND ----------
-
-#%fs
-#rm -r /mnt/datalake/book/chapter03/YellowTaxisParquet
 
 dbutils.fs.rm("/mnt/datalake/book/chapter03/YellowTaxisParquet", recurse=True)
 dbutils.fs.rm("/mnt/datalake/book/chapter03/YellowTaxis.delta", recurse=True)
@@ -57,15 +50,12 @@ dbutils.fs.rm("/user/hive/warehouse/taxidb.db", recurse=True)
 
 # COMMAND ----------
 
-#%fs
-#cp ./YellowTaxisParquet /mnt/datalake/book/chapter03/YellowTaxisParquet
-
 dbutils.fs.cp('/FileStore/tables/data/YellowTaxi','/mnt/datalake/book/chapter03/YellowTaxisParquet', recurse=True)
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###3 - Read the parquet file, and write it out in Delta Format
+# MAGIC ###3 - Parquetファイルを読み込み、Deltaフォーマットへ変換する
 
 # COMMAND ----------
 
@@ -79,7 +69,7 @@ df.write.format("delta").mode("overwrite").save("/mnt/datalake/book/chapter03/Ye
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###4 - Copy the YellowTaxisLargeAppend.csv file to the chapter03 sub-folder
+# MAGIC ###4 - ellowTaxisLargeAppend.csvファイルを3章のフォルダへコピーする
 
 # COMMAND ----------
 
@@ -95,7 +85,7 @@ except:
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###5 - Create the YellowTaxis_append.csv file to the chapter03 sub-folder
+# MAGIC ###5 - YellowTaxis_append.csvを3章のフォルダへコピーする
 
 # COMMAND ----------
 
@@ -103,97 +93,37 @@ dbutils.fs.rm("/mnt/datalake/book/chapter03/YellowTaxis_append.csv", recurse=Tru
 
 # COMMAND ----------
 
-# Spark DataFrameを使ったデータの作成
-data = [
-    {
-        'RideId': 9999996,
-        'VendorId': 1,
-        'PickupTime': '2019-01-01T00:00:00.000Z',
-        'DropTime': '2022-01-01T00:13:13.000Z',
-        'PickupLocationId': 170,
-        'DropLocationId': 140,
-        'CabNumber': 'TAC399',
-        'DriverLicenseNumber': 5131685,
-        'PassengerCount': 1,
-        'TripDistance': 2.9,
-        'RateCodeId': 1,
-        'PaymentType': 1,
-        'TotalAmount': 15.3,
-        'FareAmount': 13.0,
-        'Extra': 0.5,
-        'MtaTax': 0.5,
-        'TipAmount': 1.0,
-        'TollsAmount': 0.0,
-        'ImprovementSurcharge': 0.3
-    },
-    {
-        'RideId': 9999997,
-        'VendorId': 1,
-        'PickupTime': '2019-01-01T00:00:00.000Z',
-        'DropTime': '2022-01-01T00:09:21.000Z',
-        'PickupLocationId': 161,
-        'DropLocationId': 68,
-        'CabNumber': 'T489328C',
-        'DriverLicenseNumber': 5076150,
-        'PassengerCount': 1,
-        'TripDistance': 1.1,
-        'RateCodeId': 1,
-        'PaymentType': 2,
-        'TotalAmount': 9.8,
-        'FareAmount': 8.5,
-        'Extra': 0.5,
-        'MtaTax': 0.5,
-        'TipAmount': 0.0,
-        'TollsAmount': 0.0,
-        'ImprovementSurcharge': 0.3
-    },
-    {
-        'RideId': 9999998,
-        'VendorId': 1,
-        'PickupTime': '2019-01-01T00:00:00.000Z',
-        'DropTime': '2022-01-01T00:09:15.000Z',
-        'PickupLocationId': 141,
-        'DropLocationId': 170,
-        'CabNumber': 'T509308C',
-        'DriverLicenseNumber': 5067782,
-        'PassengerCount': 0,
-        'TripDistance': 1.7,
-        'RateCodeId': 1,
-        'PaymentType': 1,
-        'TotalAmount': 12.35,
-        'FareAmount': 9.0,
-        'Extra': 0.5,
-        'MtaTax': 0.5,
-        'TipAmount': 2.05,
-        'TollsAmount': 0.0,
-        'ImprovementSurcharge': 0.3
-    },
-    {
-        'RideId': 9999999,
-        'VendorId': 1,
-        'PickupTime': '2019-01-01T00:00:00.000Z',
-        'DropTime': '2022-01-01T00:10:01.000Z',
-        'PickupLocationId': 161,
-        'DropLocationId': 68,
-        'CabNumber': 'VG354',
-        'DriverLicenseNumber': 5012911,
-        'PassengerCount': 2,
-        'TripDistance': 2.86,
-        'RateCodeId': 1,
-        'PaymentType': 1,
-        'TotalAmount': 18.17,
-        'FareAmount': 14.5,
-        'Extra': 0.5,
-        'MtaTax': 0.5,
-        'TipAmount': 2.37,
-        'TollsAmount': 0.0,
-        'ImprovementSurcharge': 0.3
-    }
-]
+import pandas as pd
 
+# データの作成
+data = {
+   'RideId': [9999996, 9999997, 9999998, 9999999],
+   'VendorId': [1, 1, 1, 1],
+   'PickupTime': ['2019-01-01T00:00:00.000Z', '2019-01-01T00:00:00.000Z', '2019-01-01T00:00:00.000Z', '2019-01-01T00:00:00.000Z'],
+   'DropTime': ['2022-01-01T00:13:13.000Z', '2022-01-01T00:09:21.000Z', '2022-01-01T00:09:15.000Z', '2022-01-01T00:10:01.000Z'],
+   'PickupLocationId': [170, 161, 141, 161],
+   'DropLocationId': [140, 68, 170, 68],
+   'CabNumber': ['TAC399', 'T489328C', 'T509308C', 'VG354'],
+   'DriverLicenseNumber': [5131685, 5076150, 5067782, 5012911],
+   'PassengerCount': [1, 1, 0, 2],
+   'TripDistance': [2.9, 1.1, 1.7, 2.86],
+   'RateCodeId': [1, 1, 1, 1],
+   'PaymentType': [1, 2, 1, 1],
+   'TotalAmount': [15.3, 9.8, 12.35, 18.17],
+   'FareAmount': [13.0, 8.5, 9.0, 14.5],
+   'Extra': [0.5, 0.5, 0.5, 0.5],
+   'MtaTax': [0.5, 0.5, 0.5, 0.5],
+   'TipAmount': [1.0, 0.0, 2.05, 2.37],
+   'TollsAmount': [0.0, 0.0, 0.0, 0.0],
+   'ImprovementSurcharge': [0.3, 0.3, 0.3, 0.3]
+}
 
 # データフレーム作成
-df = spark.createDataFrame(data)
+df = pd.DataFrame(data)
+
+# データフレーム作成
+df = spark.createDataFrame(df)
+# CSVファイルに出力
 df.write.csv("/mnt/datalake/book/chapter03/YellowTaxis_append.csv", header=True, mode="overwrite")
 
 print("CSVファイルが正常に出力されました: /mnt/datalake/book/chapter03/YellowTaxis_append.csv")

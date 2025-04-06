@@ -24,19 +24,19 @@
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC ###1 - YellowTaxis テーブルとその基礎となる Delta ファイルを削除します
+
+# COMMAND ----------
+
 # MAGIC %sql
 # MAGIC USE CATALOG hive_metastore;
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ###1 - Drop the YellowTaxis table and it's underlying Delta Files
-
-# COMMAND ----------
-
 # MAGIC %sql
-# MAGIC -- Drop the YellowTaxis table. Since this is an unmamaged
-# MAGIC -- table, this will NOT remove the underlying files
+# MAGIC -- YellowTaxis テーブルを削除します。
+# MAGIC -- これは管理されていないテーブルなので、基になるファイルは削除されません。
 # MAGIC DROP TABLE IF EXISTS taxidb.YellowTaxis
 
 # COMMAND ----------
@@ -254,5 +254,6 @@ df_for_append.write                     \
 # MAGIC %fs
 # MAGIC ls /mnt/datalake/book/chapter03/YellowTaxisDelta
 
+# COMMAND ----------
 
 

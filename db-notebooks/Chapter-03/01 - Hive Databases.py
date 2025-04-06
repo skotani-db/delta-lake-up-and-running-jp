@@ -20,7 +20,7 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###1 - List all Hive databases
+# MAGIC ###1 - Hiveのデータベースを表示する
 
 # COMMAND ----------
 
@@ -35,7 +35,7 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###2 - Create the taxidb database
+# MAGIC ###2 - taxidbデータベースを作成する
 
 # COMMAND ----------
 

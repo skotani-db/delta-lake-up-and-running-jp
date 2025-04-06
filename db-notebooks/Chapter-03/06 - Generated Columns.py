@@ -22,7 +22,7 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###1 - Create a simple version of the YellowTaxis table
+# MAGIC ###1 - YellowTaxisテーブルのシンプルバージョンを作成する
 
 # COMMAND ----------
 
@@ -49,12 +49,12 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###2 - Insert a record in the table, this will trigger the computation of the GENERATED columns
+# MAGIC ###2 - テーブルにレコードを挿入すると、生成された列の計算がトリガーされます
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC -- Insert a record, triggering the calculation of our GENRATED columns
+# MAGIC -- レコードを挿入し、GENRATED 列の計算をトリガーします。
 # MAGIC INSERT INTO taxidb.YellowTaxis
 # MAGIC     (RideId, VendorId, PickupTime, DropTime, CabNumber)
 # MAGIC VALUES
@@ -68,19 +68,18 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC -- Illustrate that our GENERATED columns were calculated correctly
+# MAGIC -- 生成された列が正しく計算されたことを示します
 # MAGIC SELECT PickupTime, PickupYear, PickupMonth, PickupDay FROM taxidb.YellowTaxis
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ###4 - An example of an invalid GENERATED ALWAYS AS function - UUID's are non-deterministic
+# MAGIC ###4 - 無効な GENERATED ALWAYS AS 関数の例 - UUID は非決定的である
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC -- Here, we are trying to create a table that has
-# MAGIC -- a GUID primary key
+# MAGIC -- ここでは、GUID 主キーを持つテーブルを作成しようとしています
 # MAGIC CREATE OR REPLACE TABLE default.dummy
 # MAGIC (
 # MAGIC     ID   STRING GENERATED ALWAYS AS (UUID()),
