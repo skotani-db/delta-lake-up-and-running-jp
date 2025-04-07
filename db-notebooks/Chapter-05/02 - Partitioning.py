@@ -4,7 +4,7 @@
 # MAGIC <img style="float: left; margin: 0px 15px 15px 0px;" src="https://learning.oreilly.com/covers/urn:orm:book:9781098139711/400w/" />  
 # MAGIC
 # MAGIC  
-# MAGIC   Name:          chapter 05/04 - Chapter 5 Optimization
+# MAGIC   Name:          chapter 05/02 - Chapter 5 - Partitioning
 # MAGIC
 # MAGIC      Purpose:   The notebooks in this folder contains the code for chapter 5 of the book - Performance Tuning.
 # MAGIC                 This notebook illustrates partitioning.
